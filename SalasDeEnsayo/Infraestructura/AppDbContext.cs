@@ -16,10 +16,11 @@ public class AppDbContext : DbContext, IAppDbContext
 
     public DbSet<saladeensayo> saladeensayo { get; set; }
     public DbSet<tipodesala> tipodesala { get; set; }
+    public DbSet<listadeprecio> listadeprecio { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-       => optionsBuilder.UseSqlServer(" Server=172.0.0.14;Database=SEMB;user=TestUser;Password=Test2023!;Encrypt=true;TrustServerCertificate=True");
+       => optionsBuilder.UseSqlServer(" Server=172.0.0.14;Database=SEAA;user=TestUser;Password=Test2023!;Encrypt=true;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,9 +29,6 @@ public class AppDbContext : DbContext, IAppDbContext
             .HasColumnType("Varchar")
             .HasMaxLength(50)
             .HasColumnName("descripcion_sala");
-
-
-
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

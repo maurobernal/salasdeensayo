@@ -22,6 +22,32 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.listadeprecio", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("dia")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("Varchar");
+
+                    b.Property<long>("precioxhora")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("tiposalaid")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("tiposalaid");
+
+                    b.ToTable("listadeprecio");
+                });
+
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
                 {
                     b.Property<int>("id")
@@ -79,6 +105,17 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                     b.ToTable("tipodesala");
                 });
 
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.listadeprecio", b =>
+                {
+                    b.HasOne("SalasDeEnsayo.Entidades.tipodesala", "tiposala")
+                        .WithMany("listadeprecios")
+                        .HasForeignKey("tiposalaid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("tiposala");
+                });
+
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
                 {
                     b.HasOne("SalasDeEnsayo.Entidades.tipodesala", "tipo")
@@ -92,6 +129,8 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
 
             modelBuilder.Entity("SalasDeEnsayo.Entidades.tipodesala", b =>
                 {
+                    b.Navigation("listadeprecios");
+
                     b.Navigation("saladeensayos");
                 });
 #pragma warning restore 612, 618
