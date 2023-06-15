@@ -22,6 +22,40 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.instrumento", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("SalaDeEnsayoEquipamientoid")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("creado")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("descripcion")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("Varchar");
+
+                    b.Property<bool>("habilitado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("marca")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("Varchar");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("SalaDeEnsayoEquipamientoid");
+
+                    b.ToTable("instrumento");
+                });
+
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
                 {
                     b.Property<int>("id")
@@ -55,6 +89,30 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                     b.ToTable("saladeensayo");
                 });
 
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayoequipamiento", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("SalaDeEnsayoid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idinstrumento")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idsaladeensayo")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("SalaDeEnsayoid");
+
+                    b.ToTable("saladeensayoequipamiento");
+                });
+
             modelBuilder.Entity("SalasDeEnsayo.Entidades.tipodesala", b =>
                 {
                     b.Property<int>("id")
@@ -79,6 +137,17 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                     b.ToTable("tipodesala");
                 });
 
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.instrumento", b =>
+                {
+                    b.HasOne("SalasDeEnsayo.Entidades.saladeensayoequipamiento", "SalaDeEnsayoEquipamiento")
+                        .WithMany("Instrumentos")
+                        .HasForeignKey("SalaDeEnsayoEquipamientoid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SalaDeEnsayoEquipamiento");
+                });
+
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
                 {
                     b.HasOne("SalasDeEnsayo.Entidades.tipodesala", "tipo")
@@ -88,6 +157,27 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                         .IsRequired();
 
                     b.Navigation("tipo");
+                });
+
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayoequipamiento", b =>
+                {
+                    b.HasOne("SalasDeEnsayo.Entidades.saladeensayo", "SalaDeEnsayo")
+                        .WithMany("saladeensayoequipamiento")
+                        .HasForeignKey("SalaDeEnsayoid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SalaDeEnsayo");
+                });
+
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
+                {
+                    b.Navigation("saladeensayoequipamiento");
+                });
+
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayoequipamiento", b =>
+                {
+                    b.Navigation("Instrumentos");
                 });
 
             modelBuilder.Entity("SalasDeEnsayo.Entidades.tipodesala", b =>
