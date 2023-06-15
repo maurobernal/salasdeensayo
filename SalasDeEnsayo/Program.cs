@@ -15,6 +15,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<IAppDbContext, AppDbContext>();
+
 
 builder.Services.AddRateLimiter(delegate (RateLimiterOptions option)
 {
@@ -30,11 +32,20 @@ builder.Services.AddRateLimiter(delegate (RateLimiterOptions option)
         options.QueueLimit = 2;
     });
 
+    option.AddFixedWindowLimiter("WindowFixed", options =>
+    {
+        options.PermitLimit = 1;
+        options.Window = TimeSpan.FromSeconds(12000);
+        options.QueueLimit = 3;
+    });
+
     option.OnRejected = (delegate (OnRejectedContext context, CancellationToken token)
     {
         context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
         return new ValueTask();
     });
+
+
 });
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

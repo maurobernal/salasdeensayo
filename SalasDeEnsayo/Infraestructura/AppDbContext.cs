@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SalasDeEnsayo.Entidades;
+using SalasDeEnsayo.Interfaces;
 
 namespace SalasDeEnsayo.Infraestructura;
-public class AppDbContext : DbContext
+public class AppDbContext : DbContext, IAppDbContext
 {
     public AppDbContext()
     {
@@ -36,5 +37,26 @@ public class AppDbContext : DbContext
     {
         configurationBuilder.Properties<string>().HaveMaxLength(100).HaveColumnType("Varchar");
 
+    }
+
+
+    public virtual int SaveChanges()
+    {
+        return base.SaveChanges();
+    }
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return base.SaveChangesAsync(cancellationToken);
+
+    }
+
+    public string GetVersion()
+    {
+        throw new NotImplementedException();
+    }
+
+    public string GetVersion2()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using SalasDeEnsayo.DTOs;
-using SalasDeEnsayo.Entidades;
-
-namespace SalasDeEnsayo.Profiles
+﻿namespace SalasDeEnsayo.Profiles
 {
     public class TiposDeSalaProfile : Profile
     {

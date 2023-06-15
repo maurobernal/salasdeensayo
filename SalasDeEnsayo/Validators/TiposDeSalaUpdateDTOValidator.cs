@@ -1,8 +1,4 @@
-﻿using FluentValidation;
-using SalasDeEnsayo.DTOs;
-
-namespace SalasDeEnsayo.Validators;
-
+﻿namespace SalasDeEnsayo.Validators;
 public class TiposDeSalaUpdateDTOValidator : AbstractValidator<TiposDeSalaUpdateDTO>
 {
     public TiposDeSalaUpdateDTOValidator()

@@ -1,13 +1,4 @@
-﻿using AutoMapper;
-using FluentValidation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
-using SalasDeEnsayo.DTOs;
-using SalasDeEnsayo.Entidades;
-using SalasDeEnsayo.Infraestructura;
-
-namespace SalasDeEnsayo.Controllers
+﻿namespace SalasDeEnsayo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
