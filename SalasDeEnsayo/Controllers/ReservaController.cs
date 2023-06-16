@@ -18,6 +18,10 @@ namespace SalasDeEnsayo.Controllers
         public IActionResult GetList()
         {
             var entidad = _context.reserva
+
+                .Include(i => i.salaDeEnsayo)
+                .Include(i => i.salaDeEnsayo.tipo)
+
                 .OrderBy(o => o.id)
                 .Select(s => s).ToList();
             var res = _mapper.Map<List<reservasGetDTO>>(entidad);
@@ -66,7 +70,7 @@ namespace SalasDeEnsayo.Controllers
             return Ok(entidad.id);
         }
         [HttpDelete]
-        public IActionResult Delete(int id) 
+        public IActionResult Delete(int id)
         {
             var entity = _context.reserva.Where(w => w.id == id).Select(s => s).FirstOrDefault();
 
