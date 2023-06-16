@@ -16,6 +16,8 @@ public class AppDbContext : DbContext, IAppDbContext
 
     public DbSet<saladeensayo> saladeensayo { get; set; }
     public DbSet<tipodesala> tipodesala { get; set; }
+    public DbSet<listadeprecio> listadeprecio { get; set; }
+    public DbSet<reserva> reserva { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -28,9 +30,6 @@ public class AppDbContext : DbContext, IAppDbContext
             .HasColumnType("Varchar")
             .HasMaxLength(50)
             .HasColumnName("descripcion_sala");
-
-
-
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

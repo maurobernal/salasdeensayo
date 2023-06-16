@@ -6,7 +6,8 @@ namespace SalasDeEnsayo.Interfaces
     {
         DbSet<saladeensayo> saladeensayo { get; set; }
         DbSet<tipodesala> tipodesala { get; set; }
-
+        DbSet<listadeprecio> listadeprecio { get; set; }
+        DbSet<reserva> reserva { get; set; }
 
         public string GetVersion();
         public int SaveChanges();

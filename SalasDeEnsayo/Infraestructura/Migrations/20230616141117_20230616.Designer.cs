@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SalasDeEnsayo.Infraestructura;
 
 #nullable disable
 
-namespace SalasDeEnsayo.Infraestructura.Migraciones
+namespace SalasDeEnsayo.Infraestructura.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230616141117_20230616")]
+    partial class _20230616
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,56 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.listadeprecio", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("dia")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("Varchar");
+
+                    b.Property<long>("precioxhora")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("tiposalaid")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("tiposalaid");
+
+                    b.ToTable("listadeprecio");
+                });
+
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.reserva", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("fechaFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("fechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("salaDeEnsayoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("salaDeEnsayoId");
+
+                    b.ToTable("reserva");
+                });
 
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
                 {
@@ -44,6 +97,9 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
 
                     b.Property<bool>("habilitado")
                         .HasColumnType("bit");
+
+                    b.Property<int>("reservaid")
+                        .HasColumnType("int");
 
                     b.Property<int>("tipodesalaid")
                         .HasColumnType("int");
@@ -79,6 +135,28 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                     b.ToTable("tipodesala");
                 });
 
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.listadeprecio", b =>
+                {
+                    b.HasOne("SalasDeEnsayo.Entidades.tipodesala", "tiposala")
+                        .WithMany("listadeprecios")
+                        .HasForeignKey("tiposalaid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("tiposala");
+                });
+
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.reserva", b =>
+                {
+                    b.HasOne("SalasDeEnsayo.Entidades.saladeensayo", "salaDeEnsayo")
+                        .WithMany("reservas")
+                        .HasForeignKey("salaDeEnsayoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("salaDeEnsayo");
+                });
+
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
                 {
                     b.HasOne("SalasDeEnsayo.Entidades.tipodesala", "tipo")
@@ -90,8 +168,15 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                     b.Navigation("tipo");
                 });
 
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
+                {
+                    b.Navigation("reservas");
+                });
+
             modelBuilder.Entity("SalasDeEnsayo.Entidades.tipodesala", b =>
                 {
+                    b.Navigation("listadeprecios");
+
                     b.Navigation("saladeensayos");
                 });
 #pragma warning restore 612, 618

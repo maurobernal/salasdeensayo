@@ -1,8 +1,4 @@
 //HOST
-using FluentValidation;
-using Microsoft.AspNetCore.RateLimiting;
-using Microsoft.EntityFrameworkCore;
-using SalasDeEnsayo.Infraestructura;
 using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
