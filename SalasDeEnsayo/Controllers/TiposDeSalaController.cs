@@ -89,7 +89,6 @@
 
             var res = _mapper.Map<List<TiposDeSalaGetDTO>>(entidad);
 
-            System.Threading.Thread.Sleep(15000);
             return Ok(res);
 
         }
