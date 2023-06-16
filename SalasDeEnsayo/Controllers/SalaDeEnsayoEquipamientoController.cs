@@ -1,6 +1,8 @@
-﻿namespace SalasDeEnsayo.Controllers
+﻿using SalasDeEnsayo.Entidades;
+
+namespace SalasDeEnsayo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class SalaDeEnsayoEquipamientoController : ControllerBase
     {
@@ -13,26 +15,31 @@
             _context = context;
         }
 
-        [HttpPost("")]
-        public IActionResult Post([FromBody] SalaDeEnsayoEquipamientoCreateDTO dto)
+        [HttpPost("saladeensayo/{saladeensayoid}/equipamiento")]
+        public IActionResult Post([FromBody] SalaDeEnsayoEquipamientoCreateDTO dto, int saladeensayoid)
         {
-            var instrumento = _context.instrumento.Select(s => s).FirstOrDefault();
+            var instrumento = _context.instrumento.Select(s => s).Where(w => w.id == dto.instrumentoid).FirstOrDefault();
             if (instrumento == null) return NotFound($"El registro instrumento con ID: {dto.instrumentoid} no se encuentra");
 
-            var salaDeEnsayo = _context.saladeensayo.Select(s => s).FirstOrDefault();
-            if (salaDeEnsayo == null) return NotFound($"El registro sala de ensayo con ID: {dto.salasdeensayoid} no se encuentra");
+            saladeensayoequipamiento validator = _context.saladeensayoequipamiento
+                .Include(i => i.instrumento).Include(i => i.salasdeensayo)
+                .Where(w => w.instrumentoid == dto.instrumentoid).Select(s => s).FirstOrDefault();
+            if (validator.instrumento != null) return NotFound($"El instrumento con ID: {dto.instrumentoid} ya se encuentra asignado a una sala");
 
-            //Mapers
+            var salaDeEnsayo = _context.saladeensayo.Select(s => s).Where(w => w.id == saladeensayoid).FirstOrDefault();
+            if (salaDeEnsayo == null) return NotFound($"El registro sala de ensayo con ID: {saladeensayoid} no se encuentra");
+
             saladeensayoequipamiento entidad = new();
             entidad = _mapper.Map<saladeensayoequipamiento>(dto);
+            entidad.salasdeensayoid = saladeensayoid;
 
             _context.saladeensayoequipamiento.Add(entidad);
             _context.SaveChanges();
             return Ok(entidad.id);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet("saladeensayo/{saladeensayoid}/equipamiento/{id}")]
+        public IActionResult Get(int saladeensayoid, int id)
         {
             saladeensayoequipamiento entidad = _context.saladeensayoequipamiento
                 .Include(i => i.instrumento).Include(i => i.salasdeensayo)
@@ -44,13 +51,13 @@
             return Ok(dto);
         }
 
-        [HttpGet("")]
-        public IActionResult GetAll()
+        [HttpGet("saladeensayo/{saladeensayoid}/equipamiento")]
+        public IActionResult GetAll(int saladeensayoid)
         {
             var entidad = _context.saladeensayoequipamiento
                 .Include(i => i.instrumento)
                 .Include(i => i.salasdeensayo.tipo)
-
+                .Where(w => w.salasdeensayoid == saladeensayoid)
                 .OrderBy(o => o.id)
                 .Select(s => s).ToList();
 
@@ -61,8 +68,8 @@
             return Ok(dto);
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete("saladeensayo/{saladeensayoid}/equipamiento/{id}")]
+        public IActionResult Delete(int saladeensayoid, int id)
         {
             saladeensayoequipamiento entidad = _context.saladeensayoequipamiento.Where(w => w.id == id).FirstOrDefault();
             if (entidad == null) return NotFound($"El registro con ID: {id} no se encuentra");
