@@ -35,7 +35,7 @@
         public IActionResult Get(int id)
         {
             saladeensayoequipamiento entidad = _context.saladeensayoequipamiento
-                //.Include(i => i.instrumento).Include(i => i.salasdeensayo)
+                .Include(i => i.instrumento).Include(i => i.salasdeensayo)
                 .Where(w => w.id == id).Select(s => s).FirstOrDefault();
             if (entidad == null) return NotFound($"El registro con ID: {id} no se encuentra");
             
@@ -48,7 +48,7 @@
         public IActionResult GetAll()
         {
             var entidad = _context.saladeensayoequipamiento
-                //.Include(i => i.instrumento).Include(i => i.salasdeensayo) //ERROR: Ciclo JSON
+                .Include(i => i.instrumento).Include(i => i.salasdeensayo)
                 .OrderBy(o => o.id)
                 .Select(s => s).ToList();
 
