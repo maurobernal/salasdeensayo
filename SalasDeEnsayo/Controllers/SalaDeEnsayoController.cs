@@ -2,7 +2,7 @@
 
 namespace SalasDeEnsayo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/saladeensayo")]
     [ApiController]
     public class SalasDeEnsayoController : ControllerBase
     {
