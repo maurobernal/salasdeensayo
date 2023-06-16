@@ -59,13 +59,11 @@ namespace SalasDeEnsayo.Infraestructura.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("dia")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("Varchar");
+                    b.Property<int>("dia")
+                        .HasColumnType("int");
 
-                    b.Property<long>("precioxhora")
-                        .HasColumnType("bigint");
+                    b.Property<double>("precioxhora")
+                        .HasColumnType("float");
 
                     b.Property<int>("tiposalaid")
                         .HasColumnType("int");

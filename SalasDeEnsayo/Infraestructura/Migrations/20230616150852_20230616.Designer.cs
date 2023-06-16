@@ -12,7 +12,7 @@ using SalasDeEnsayo.Infraestructura;
 namespace SalasDeEnsayo.Infraestructura.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230616144105_20230616")]
+    [Migration("20230616150852_20230616")]
     partial class _20230616
     {
         /// <inheritdoc />
@@ -62,13 +62,11 @@ namespace SalasDeEnsayo.Infraestructura.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("dia")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("Varchar");
+                    b.Property<int>("dia")
+                        .HasColumnType("int");
 
-                    b.Property<long>("precioxhora")
-                        .HasColumnType("bigint");
+                    b.Property<double>("precioxhora")
+                        .HasColumnType("float");
 
                     b.Property<int>("tiposalaid")
                         .HasColumnType("int");

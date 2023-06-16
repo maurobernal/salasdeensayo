@@ -2,7 +2,8 @@
 
 public class ListaDePrecioGetDTO
 {
+    public int id { get; set; }
+    public int dia { get; set; }
+    public double precioxhora { get; set; }
     public TiposDeSalaGetDTO tiposala { get; set; }
-    public long precioxhora { get; set; }
-    public string dia { get; set; }
 }

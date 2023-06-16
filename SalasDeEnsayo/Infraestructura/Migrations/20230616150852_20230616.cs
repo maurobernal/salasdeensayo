@@ -49,8 +49,8 @@ namespace SalasDeEnsayo.Infraestructura.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     tiposalaid = table.Column<int>(type: "int", nullable: false),
-                    dia = table.Column<string>(type: "Varchar(100)", maxLength: 100, nullable: false),
-                    precioxhora = table.Column<long>(type: "bigint", nullable: false)
+                    dia = table.Column<int>(type: "int", nullable: false),
+                    precioxhora = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
