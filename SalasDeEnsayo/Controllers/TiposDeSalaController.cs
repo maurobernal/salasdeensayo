@@ -7,6 +7,7 @@
     {
         private readonly IMapper _mapper;
         private readonly IValidator<TiposDeSalaUpdateDTO> _validator;
+        
 
         public TiposDeSalaController(IMapper mapper, IValidator<TiposDeSalaUpdateDTO> validator)
         {
@@ -86,10 +87,7 @@
 
             AppDbContext ctx = new AppDbContext();
             var entidad = ctx.tipodesala.OrderBy(o => o.id).Select(s => s).ToList();
-
             var res = _mapper.Map<List<TiposDeSalaGetDTO>>(entidad);
-
-            System.Threading.Thread.Sleep(15000);
             return Ok(res);
 
         }

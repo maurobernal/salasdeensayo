@@ -22,7 +22,11 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+<<<<<<< HEAD
             modelBuilder.Entity("SalasDeEnsayo.Entidades.listadeprecio", b =>
+=======
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.reserva", b =>
+>>>>>>> 0425b26e3dbd324ba73832f131ec632d3399901a
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -30,6 +34,7 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+<<<<<<< HEAD
                     b.Property<string>("dia")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -39,13 +44,28 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                         .HasColumnType("bigint");
 
                     b.Property<int>("tiposalaid")
+=======
+                    b.Property<DateTime>("fechaFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("fechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("salaDeEnsayoId")
+>>>>>>> 0425b26e3dbd324ba73832f131ec632d3399901a
                         .HasColumnType("int");
 
                     b.HasKey("id");
 
+<<<<<<< HEAD
                     b.HasIndex("tiposalaid");
 
                     b.ToTable("listadeprecio");
+=======
+                    b.HasIndex("salaDeEnsayoId");
+
+                    b.ToTable("reserva");
+>>>>>>> 0425b26e3dbd324ba73832f131ec632d3399901a
                 });
 
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
@@ -70,6 +90,9 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
 
                     b.Property<bool>("habilitado")
                         .HasColumnType("bit");
+
+                    b.Property<int>("reservaid")
+                        .HasColumnType("int");
 
                     b.Property<int>("tipodesalaid")
                         .HasColumnType("int");
@@ -105,6 +128,7 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                     b.ToTable("tipodesala");
                 });
 
+<<<<<<< HEAD
             modelBuilder.Entity("SalasDeEnsayo.Entidades.listadeprecio", b =>
                 {
                     b.HasOne("SalasDeEnsayo.Entidades.tipodesala", "tiposala")
@@ -114,6 +138,17 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                         .IsRequired();
 
                     b.Navigation("tiposala");
+=======
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.reserva", b =>
+                {
+                    b.HasOne("SalasDeEnsayo.Entidades.saladeensayo", "salaDeEnsayo")
+                        .WithMany("reservas")
+                        .HasForeignKey("salaDeEnsayoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("salaDeEnsayo");
+>>>>>>> 0425b26e3dbd324ba73832f131ec632d3399901a
                 });
 
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
@@ -125,6 +160,11 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                         .IsRequired();
 
                     b.Navigation("tipo");
+                });
+
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
+                {
+                    b.Navigation("reservas");
                 });
 
             modelBuilder.Entity("SalasDeEnsayo.Entidades.tipodesala", b =>

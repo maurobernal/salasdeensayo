@@ -16,11 +16,19 @@ public class AppDbContext : DbContext, IAppDbContext
 
     public DbSet<saladeensayo> saladeensayo { get; set; }
     public DbSet<tipodesala> tipodesala { get; set; }
+<<<<<<< HEAD
     public DbSet<listadeprecio> listadeprecio { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
        => optionsBuilder.UseSqlServer(" Server=172.0.0.14;Database=SEAA;user=TestUser;Password=Test2023!;Encrypt=true;TrustServerCertificate=True");
+=======
+    public DbSet<reserva> reserva { get; set; }
+
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+       => optionsBuilder.UseSqlServer(" Server=172.0.0.14;Database=SEMR;user=TestUser;Password=Test2023!;Encrypt=true;TrustServerCertificate=True");
+>>>>>>> 0425b26e3dbd324ba73832f131ec632d3399901a
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
