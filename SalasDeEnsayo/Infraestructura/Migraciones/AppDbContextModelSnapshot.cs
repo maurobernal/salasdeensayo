@@ -22,6 +22,30 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.reserva", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("fechaFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("fechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("salaDeEnsayoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("salaDeEnsayoId");
+
+                    b.ToTable("reserva");
+                });
+
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
                 {
                     b.Property<int>("id")
@@ -44,6 +68,9 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
 
                     b.Property<bool>("habilitado")
                         .HasColumnType("bit");
+
+                    b.Property<int>("reservaid")
+                        .HasColumnType("int");
 
                     b.Property<int>("tipodesalaid")
                         .HasColumnType("int");
@@ -79,6 +106,17 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                     b.ToTable("tipodesala");
                 });
 
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.reserva", b =>
+                {
+                    b.HasOne("SalasDeEnsayo.Entidades.saladeensayo", "salaDeEnsayo")
+                        .WithMany("reservas")
+                        .HasForeignKey("salaDeEnsayoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("salaDeEnsayo");
+                });
+
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
                 {
                     b.HasOne("SalasDeEnsayo.Entidades.tipodesala", "tipo")
@@ -88,6 +126,11 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                         .IsRequired();
 
                     b.Navigation("tipo");
+                });
+
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
+                {
+                    b.Navigation("reservas");
                 });
 
             modelBuilder.Entity("SalasDeEnsayo.Entidades.tipodesala", b =>
