@@ -2,7 +2,7 @@
 
 namespace SalasDeEnsayo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class SalaDeEnsayoEquipamientoController : ControllerBase
     {
@@ -15,23 +15,20 @@ namespace SalasDeEnsayo.Controllers
             _context = context;
         }
 
-        [HttpPost("saladeensayo/{saladeensayoid}")]
+        [HttpPost("saladeensayo/{saladeensayoid}/equipamiento")]
         public IActionResult Post([FromBody] SalaDeEnsayoEquipamientoCreateDTO dto, int saladeensayoid)
         {
             var instrumento = _context.instrumento.Select(s => s).Where(w => w.id == dto.instrumentoid).FirstOrDefault();
             if (instrumento == null) return NotFound($"El registro instrumento con ID: {dto.instrumentoid} no se encuentra");
 
-            //Validator
             saladeensayoequipamiento validator = _context.saladeensayoequipamiento
                 .Include(i => i.instrumento).Include(i => i.salasdeensayo)
                 .Where(w => w.instrumentoid == dto.instrumentoid).Select(s => s).FirstOrDefault();
             if (validator.instrumento != null) return NotFound($"El instrumento con ID: {dto.instrumentoid} ya se encuentra asignado a una sala");
 
-
             var salaDeEnsayo = _context.saladeensayo.Select(s => s).Where(w => w.id == saladeensayoid).FirstOrDefault();
             if (salaDeEnsayo == null) return NotFound($"El registro sala de ensayo con ID: {saladeensayoid} no se encuentra");
 
-            //Mapers
             saladeensayoequipamiento entidad = new();
             entidad = _mapper.Map<saladeensayoequipamiento>(dto);
             entidad.salasdeensayoid = saladeensayoid;
@@ -55,11 +52,12 @@ namespace SalasDeEnsayo.Controllers
         }
 
         [HttpGet("saladeensayo/{saladeensayoid}/equipamiento")]
-        public IActionResult GetAll()
+        public IActionResult GetAll(int saladeensayoid)
         {
             var entidad = _context.saladeensayoequipamiento
                 .Include(i => i.instrumento)
                 .Include(i => i.salasdeensayo.tipo)
+                .Where(w => w.salasdeensayoid == saladeensayoid)
                 .OrderBy(o => o.id)
                 .Select(s => s).ToList();
 
@@ -70,7 +68,7 @@ namespace SalasDeEnsayo.Controllers
             return Ok(dto);
         }
 
-        [HttpDelete("saladeensayo/{saladeensayoid}/equipamient/{id}")]
+        [HttpDelete("saladeensayo/{saladeensayoid}/equipamiento/{id}")]
         public IActionResult Delete(int saladeensayoid, int id)
         {
             saladeensayoequipamiento entidad = _context.saladeensayoequipamiento.Where(w => w.id == id).FirstOrDefault();
