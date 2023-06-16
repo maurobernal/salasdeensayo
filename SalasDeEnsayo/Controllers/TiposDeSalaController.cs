@@ -6,13 +6,8 @@
     public class TiposDeSalaController : ControllerBase
     {
         private readonly IMapper _mapper;
-<<<<<<< HEAD
         private readonly IAppDbContext _context;
-=======
         private readonly IValidator<TiposDeSalaUpdateDTO> _validator;
-        
->>>>>>> main
-
 
         public TiposDeSalaController(IMapper mapper, IAppDbContext context)
         {
@@ -93,11 +88,7 @@
             AppDbContext ctx = new AppDbContext();
             var entidad = ctx.tipodesala.OrderBy(o => o.id).Select(s => s).ToList();
             var res = _mapper.Map<List<TiposDeSalaGetDTO>>(entidad);
-<<<<<<< HEAD
 
-            //System.Threading.Thread.Sleep(15000);
-=======
->>>>>>> main
             return Ok(res);
 
         }

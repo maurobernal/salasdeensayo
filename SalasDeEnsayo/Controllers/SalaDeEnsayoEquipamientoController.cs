@@ -2,7 +2,7 @@
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SalaDeEnsayoEquipamientoController: ControllerBase
+    public class SalaDeEnsayoEquipamientoController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IAppDbContext _context;
@@ -38,7 +38,7 @@
                 .Include(i => i.instrumento).Include(i => i.salasdeensayo)
                 .Where(w => w.id == id).Select(s => s).FirstOrDefault();
             if (entidad == null) return NotFound($"El registro con ID: {id} no se encuentra");
-            
+
 
             var dto = _mapper.Map<SalaDeEnsayoEquipamientoGetDTO>(entidad);
             return Ok(dto);
@@ -48,7 +48,9 @@
         public IActionResult GetAll()
         {
             var entidad = _context.saladeensayoequipamiento
-                .Include(i => i.instrumento).Include(i => i.salasdeensayo)
+                .Include(i => i.instrumento)
+                .Include(i => i.salasdeensayo.tipo)
+
                 .OrderBy(o => o.id)
                 .Select(s => s).ToList();
 

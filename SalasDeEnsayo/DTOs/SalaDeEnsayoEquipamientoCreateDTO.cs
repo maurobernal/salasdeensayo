@@ -8,9 +8,9 @@
     public class SalaDeEnsayoEquipamientoGetDTO
     {
         public int salasdeensayoid { get; set; }
-        public saladeensayo salasdeensayo { get; set; }
+        public SalaDeEnsayoGetDTO salasdeensayo { get; set; }
         public int instrumentoid { get; set; }
-        public instrumento instrumento { get; set; }
+        public InstrumentoGetDTO instrumento { get; set; }
     }
 
 }
