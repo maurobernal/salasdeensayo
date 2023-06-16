@@ -95,7 +95,9 @@ public class ListaDePrecioController : ControllerBase
         if (entity == null) return NotFound(id);
 
         _context.listadeprecio.Remove(entity);
+
         _context.SaveChanges();
+
 
 
         return Ok(entity.id);
