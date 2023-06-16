@@ -6,12 +6,13 @@
     public class TiposDeSalaController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IValidator<TiposDeSalaUpdateDTO> _validator;
+        private readonly IAppDbContext _context;
 
-        public TiposDeSalaController(IMapper mapper, IValidator<TiposDeSalaUpdateDTO> validator)
+
+        public TiposDeSalaController(IMapper mapper, IAppDbContext context)
         {
             _mapper = mapper;
-            _validator = validator;
+            _context = context;
         }
 
         [HttpPost("")]

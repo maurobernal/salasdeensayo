@@ -1,8 +1,8 @@
 ﻿namespace SalasDeEnsayo.Profiles
 {
-    public class SalasDeEnsayoEquipamientoProfile: Profile
+    public class SalaDeEnsayoEquipamientoProfile: Profile
     {
-        public SalasDeEnsayoEquipamientoProfile()
+        public SalaDeEnsayoEquipamientoProfile()
         {
             CreateMap<SalaDeEnsayoEquipamientoCreateDTO, saladeensayoequipamiento>();
             CreateMap<SalaDeEnsayoEquipamientoGetDTO, saladeensayoequipamiento>().ReverseMap();

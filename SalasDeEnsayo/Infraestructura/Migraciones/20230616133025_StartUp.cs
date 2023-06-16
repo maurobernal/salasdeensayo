@@ -12,6 +12,22 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "instrumento",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    marca = table.Column<string>(type: "Varchar(100)", maxLength: 100, nullable: false),
+                    descripcion = table.Column<string>(type: "Varchar(100)", maxLength: 100, nullable: false),
+                    fechacompra = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    habilitado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_instrumento", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tipodesala",
                 columns: table => new
                 {
@@ -55,48 +71,25 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SalaDeEnsayoid = table.Column<int>(type: "int", nullable: false),
-                    idsaladeensayo = table.Column<int>(type: "int", nullable: false),
-                    idinstrumento = table.Column<int>(type: "int", nullable: false)
+                    salasdeensayoid = table.Column<int>(type: "int", nullable: false),
+                    instrumentoid = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_saladeensayoequipamiento", x => x.id);
                     table.ForeignKey(
-                        name: "FK_saladeensayoequipamiento_saladeensayo_SalaDeEnsayoid",
-                        column: x => x.SalaDeEnsayoid,
+                        name: "FK_saladeensayoequipamiento_instrumento_instrumentoid",
+                        column: x => x.instrumentoid,
+                        principalTable: "instrumento",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_saladeensayoequipamiento_saladeensayo_salasdeensayoid",
+                        column: x => x.salasdeensayoid,
                         principalTable: "saladeensayo",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "instrumento",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SalaDeEnsayoEquipamientoid = table.Column<int>(type: "int", nullable: false),
-                    marca = table.Column<string>(type: "Varchar(100)", maxLength: 100, nullable: false),
-                    descripcion = table.Column<string>(type: "Varchar(100)", maxLength: 100, nullable: false),
-                    habilitado = table.Column<bool>(type: "bit", nullable: false),
-                    creado = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_instrumento", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_instrumento_saladeensayoequipamiento_SalaDeEnsayoEquipamientoid",
-                        column: x => x.SalaDeEnsayoEquipamientoid,
-                        principalTable: "saladeensayoequipamiento",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_instrumento_SalaDeEnsayoEquipamientoid",
-                table: "instrumento",
-                column: "SalaDeEnsayoEquipamientoid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_saladeensayo_tipodesalaid",
@@ -104,19 +97,24 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                 column: "tipodesalaid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_saladeensayoequipamiento_SalaDeEnsayoid",
+                name: "IX_saladeensayoequipamiento_instrumentoid",
                 table: "saladeensayoequipamiento",
-                column: "SalaDeEnsayoid");
+                column: "instrumentoid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_saladeensayoequipamiento_salasdeensayoid",
+                table: "saladeensayoequipamiento",
+                column: "salasdeensayoid");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "instrumento");
+                name: "saladeensayoequipamiento");
 
             migrationBuilder.DropTable(
-                name: "saladeensayoequipamiento");
+                name: "instrumento");
 
             migrationBuilder.DropTable(
                 name: "saladeensayo");

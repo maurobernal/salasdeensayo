@@ -15,59 +15,72 @@ namespace SalasDeEnsayo.Controllers
             _context = context;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetInstrumento(int id)
-        {
-            var entidad = _context.instrumento.Where(i => i.id == id).Select(s => s).FirstOrDefault();
-            var dto = _mapper.Map<InstrumentoGetDTO>(entidad);
-            return Ok(dto);
-        }
         [HttpPost("")]
-        public IActionResult PostInstrumento([FromBody] InstrumentoCreateDTO dto)
+        public IActionResult Post([FromBody] InstrumentoCreateDTO dto)
         {
             //Validators
-            if (dto.Descripcion.Length < 0 || dto.Descripcion.Length > 100) BadRequest(dto.Descripcion);
-            AppDbContext ctx = new AppDbContext();
+            if (dto.descripcion.Length < 0 || dto.descripcion.Length > 100) BadRequest($"Descripcion Invalida: '{dto.descripcion}'");
 
             //Mapers
             instrumento entidad = new();
             entidad = _mapper.Map<instrumento>(dto);
 
             //Campos predeterminados
-            entidad.creado = DateTime.Now;
+            entidad.fechacompra = DateTime.Now;
             entidad.habilitado = true;
 
-            ctx.Add(entidad);
-            ctx.SaveChanges();
+            _context.instrumento.Add(entidad);
+            _context.SaveChanges();
             return Ok(entidad.id);
         }
 
-        [HttpPut("")]
-        public IActionResult PutInstrumento([FromBody] InstrumentoUpdateDTO dto)
+        [HttpPut("{id}")]
+        public IActionResult Put([FromBody] InstrumentoUpdateDTO dto, int id)
         {
             //Validators
-            if (dto.Descripcion.Length < 0 || dto.Descripcion.Length > 100) BadRequest(dto.Descripcion);
-            AppDbContext ctx = new AppDbContext();
+            if (dto.descripcion.Length < 0 || dto.descripcion.Length > 100) BadRequest($"Descripcion Invalida: '{dto.descripcion}'");
+            if (dto.id != id) return BadRequest($"Los id no coinciden. ID Path: {id} | ID Body: {dto.id}");
+
+            var entidad = _context.instrumento.Where(w => w.id == id).FirstOrDefault();
+            if (entidad == null) return NotFound($"El registro con ID: {dto.id} no se encuentra");
 
             //Mapers
-            instrumento entidad = new();
             _mapper.Map<InstrumentoUpdateDTO, instrumento>(dto, entidad);
 
             _context.SaveChanges();
             return Ok(entidad.id);
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult EliminarSalaDeEnsayo(int id)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            var entity = _context.instrumento.Where(i => i.id == id).Select(s => s).FirstOrDefault();
+            instrumento entidad = _context.instrumento.Where(w => w.id == id).Select(s => s).FirstOrDefault();
+            if (entidad == null) return NotFound($"El registro con ID: {id} no se encuentra");
 
-            if (entity == null) return NotFound(id);
+            var dto = _mapper.Map<InstrumentoGetDTO>(entidad);
+            return Ok(dto);
+        }
 
-            _context.instrumento.Remove(entity);
+        [HttpGet("")]
+        public IActionResult GetAll()
+        {
+            var entidad = _context.instrumento.OrderBy(o => o.id).Select(s => s).ToList();
+            if (entidad == null || entidad.Count() == 0) return NotFound($"No se encontraron registros de instrumentos");
+
+            var res = _mapper.Map<List<InstrumentoGetDTO>>(entidad);
+            return Ok(res);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            instrumento entidad = _context.instrumento.Where(w => w.id == id).FirstOrDefault();
+            if (entidad == null) return NotFound($"El registro con ID: {id} no se encuentra");
+
+            _context.instrumento.Remove(entidad);
             _context.SaveChanges();
 
-            return Ok(entity.id);
+            return Ok(entidad.id);
         }
     }
 }
