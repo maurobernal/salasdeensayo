@@ -1,8 +1,8 @@
 ﻿namespace SalasDeEnsayo.DTOs;
 
-public class ListaDePrecioGetDTO
+public class ListaDePrecioUpdateDTO
 {
-    public TiposDeSalaGetDTO tiposala { get; set; }
+    public int id { get; set; }
     public long precioxhora { get; set; }
     public string dia { get; set; }
 }
