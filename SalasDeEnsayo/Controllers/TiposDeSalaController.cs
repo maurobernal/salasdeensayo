@@ -42,7 +42,6 @@
         {
 
             //Validators
-            if (id != dto.Id) return BadRequest();
             if (dto.descripcion.Length < 0 || dto.descripcion.Length > 100) return BadRequest(dto.descripcion);
 
             AppDbContext ctx = new AppDbContext();
@@ -93,6 +92,6 @@
 
         }
 
-
+        
     }
 }
