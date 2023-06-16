@@ -8,7 +8,7 @@ using SalasDeEnsayo.Infraestructura;
 
 #nullable disable
 
-namespace SalasDeEnsayo.Infraestructura.Migraciones
+namespace SalasDeEnsayo.Infraestructura.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,11 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+<<<<<<< HEAD:SalasDeEnsayo/Infraestructura/Migraciones/AppDbContextModelSnapshot.cs
             modelBuilder.Entity("SalasDeEnsayo.Entidades.instrumento", b =>
+=======
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.listadeprecio", b =>
+>>>>>>> main:SalasDeEnsayo/Infraestructura/Migrations/AppDbContextModelSnapshot.cs
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -30,11 +34,16 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+<<<<<<< HEAD:SalasDeEnsayo/Infraestructura/Migraciones/AppDbContextModelSnapshot.cs
                     b.Property<string>("descripcion")
+=======
+                    b.Property<string>("dia")
+>>>>>>> main:SalasDeEnsayo/Infraestructura/Migrations/AppDbContextModelSnapshot.cs
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("Varchar");
 
+<<<<<<< HEAD:SalasDeEnsayo/Infraestructura/Migraciones/AppDbContextModelSnapshot.cs
                     b.Property<DateTime>("fechacompra")
                         .HasColumnType("datetime2");
 
@@ -49,6 +58,43 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                     b.HasKey("id");
 
                     b.ToTable("instrumento");
+=======
+                    b.Property<long>("precioxhora")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("tiposalaid")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("tiposalaid");
+
+                    b.ToTable("listadeprecio");
+                });
+
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.reserva", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("fechaFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("fechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("salaDeEnsayoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("salaDeEnsayoId");
+
+                    b.ToTable("reserva");
+>>>>>>> main:SalasDeEnsayo/Infraestructura/Migrations/AppDbContextModelSnapshot.cs
                 });
 
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
@@ -73,6 +119,9 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
 
                     b.Property<bool>("habilitado")
                         .HasColumnType("bit");
+
+                    b.Property<int>("reservaid")
+                        .HasColumnType("int");
 
                     b.Property<int>("tipodesalaid")
                         .HasColumnType("int");
@@ -131,6 +180,28 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                     b.ToTable("tipodesala");
                 });
 
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.listadeprecio", b =>
+                {
+                    b.HasOne("SalasDeEnsayo.Entidades.tipodesala", "tiposala")
+                        .WithMany("listadeprecios")
+                        .HasForeignKey("tiposalaid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("tiposala");
+                });
+
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.reserva", b =>
+                {
+                    b.HasOne("SalasDeEnsayo.Entidades.saladeensayo", "salaDeEnsayo")
+                        .WithMany("reservas")
+                        .HasForeignKey("salaDeEnsayoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("salaDeEnsayo");
+                });
+
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
                 {
                     b.HasOne("SalasDeEnsayo.Entidades.tipodesala", "tipo")
@@ -142,6 +213,7 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
                     b.Navigation("tipo");
                 });
 
+<<<<<<< HEAD:SalasDeEnsayo/Infraestructura/Migraciones/AppDbContextModelSnapshot.cs
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayoequipamiento", b =>
                 {
                     b.HasOne("SalasDeEnsayo.Entidades.instrumento", "instrumento")
@@ -169,10 +241,17 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
                 {
                     b.Navigation("equipamiento");
+=======
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
+                {
+                    b.Navigation("reservas");
+>>>>>>> main:SalasDeEnsayo/Infraestructura/Migrations/AppDbContextModelSnapshot.cs
                 });
 
             modelBuilder.Entity("SalasDeEnsayo.Entidades.tipodesala", b =>
                 {
+                    b.Navigation("listadeprecios");
+
                     b.Navigation("saladeensayos");
                 });
 #pragma warning restore 612, 618
