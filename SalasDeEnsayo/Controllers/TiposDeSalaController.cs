@@ -6,12 +6,13 @@
     public class TiposDeSalaController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly IAppDbContext _context;
         private readonly IValidator<TiposDeSalaUpdateDTO> _validator;
 
-        public TiposDeSalaController(IMapper mapper, IValidator<TiposDeSalaUpdateDTO> validator)
+        public TiposDeSalaController(IMapper mapper, IAppDbContext context)
         {
             _mapper = mapper;
-            _validator = validator;
+            _context = context;
         }
 
         [HttpPost("")]
@@ -86,7 +87,6 @@
 
             AppDbContext ctx = new AppDbContext();
             var entidad = ctx.tipodesala.OrderBy(o => o.id).Select(s => s).ToList();
-
             var res = _mapper.Map<List<TiposDeSalaGetDTO>>(entidad);
 
             return Ok(res);

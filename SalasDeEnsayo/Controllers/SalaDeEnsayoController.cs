@@ -32,6 +32,7 @@ namespace SalasDeEnsayo.Controllers
         {
             var entidad = _context.saladeensayo
                 .Include(i => i.tipo)
+                .Include(i => i.reservas)
                 .OrderBy(o => o.id).Select(s => s).ToList();
             var dto = _mapper.Map<List<SalaDeEnsayoGetDTO>>(entidad);
             return Ok(dto);

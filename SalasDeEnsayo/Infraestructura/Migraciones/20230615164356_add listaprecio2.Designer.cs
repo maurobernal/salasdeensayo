@@ -12,8 +12,8 @@ using SalasDeEnsayo.Infraestructura;
 namespace SalasDeEnsayo.Infraestructura.Migraciones
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230616135637_StartUp")]
-    partial class StartUp
+    [Migration("20230615164356_add listaprecio2")]
+    partial class addlistaprecio2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,11 +33,13 @@ namespace SalasDeEnsayo.Infraestructura.Migraciones
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int>("dia")
-                        .HasColumnType("int");
+                    b.Property<string>("dia")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("Varchar");
 
-                    b.Property<double>("precioxhora")
-                        .HasColumnType("float");
+                    b.Property<long>("precioxhora")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("tiposalaid")
                         .HasColumnType("int");
