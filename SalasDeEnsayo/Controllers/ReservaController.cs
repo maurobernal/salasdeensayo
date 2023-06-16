@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using SalasDeEnsayo.DTOs;
 
 namespace SalasDeEnsayo.Controllers
 {
@@ -21,7 +22,6 @@ namespace SalasDeEnsayo.Controllers
 
                 .Include(i => i.salaDeEnsayo)
                 .Include(i => i.salaDeEnsayo.tipo)
-
                 .OrderBy(o => o.id)
                 .Select(s => s).ToList();
             var res = _mapper.Map<List<reservasGetDTO>>(entidad);
@@ -49,7 +49,7 @@ namespace SalasDeEnsayo.Controllers
             entidad = _mapper.Map<reserva>(dto);
 
             //Campos predeterminados
-
+            entidad.confirmado = false;
             _context.reserva.Add(entidad);
             _context.SaveChanges();
             return Ok(entidad.id);
@@ -81,6 +81,18 @@ namespace SalasDeEnsayo.Controllers
 
             return Ok(entity.id);
 
+        }
+        [HttpPatch("id")]
+        public IActionResult Confirmacion(int id)
+        {
+            var entity = _context.reserva
+                .Where(w => w.id == id)
+                .FirstOrDefault();
+            if (id != entity.id) return BadRequest();
+            entity.fechaDeConfirmacion = DateTime.Now;
+            entity.confirmado = true;
+            _context.SaveChanges();
+            return Ok(entity.confirmado);
         }
     }
 }

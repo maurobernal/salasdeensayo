@@ -83,6 +83,12 @@ namespace SalasDeEnsayo.Infraestructura.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<bool>("confirmado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("fechaDeConfirmacion")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("fechaFin")
                         .HasColumnType("datetime2");
 
