@@ -12,7 +12,7 @@ using SalasDeEnsayo.Infraestructura;
 namespace SalasDeEnsayo.Infraestructura.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230616141117_20230616")]
+    [Migration("20230616144105_20230616")]
     partial class _20230616
     {
         /// <inheritdoc />
@@ -24,6 +24,35 @@ namespace SalasDeEnsayo.Infraestructura.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.instrumento", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("descripcion")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("Varchar");
+
+                    b.Property<DateTime>("fechacompra")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("habilitado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("marca")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("Varchar");
+
+                    b.HasKey("id");
+
+                    b.ToTable("instrumento");
+                });
 
             modelBuilder.Entity("SalasDeEnsayo.Entidades.listadeprecio", b =>
                 {
@@ -111,6 +140,29 @@ namespace SalasDeEnsayo.Infraestructura.Migrations
                     b.ToTable("saladeensayo");
                 });
 
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayoequipamiento", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("instrumentoid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("salasdeensayoid")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("instrumentoid");
+
+                    b.HasIndex("salasdeensayoid");
+
+                    b.ToTable("saladeensayoequipamiento");
+                });
+
             modelBuilder.Entity("SalasDeEnsayo.Entidades.tipodesala", b =>
                 {
                     b.Property<int>("id")
@@ -168,8 +220,34 @@ namespace SalasDeEnsayo.Infraestructura.Migrations
                     b.Navigation("tipo");
                 });
 
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayoequipamiento", b =>
+                {
+                    b.HasOne("SalasDeEnsayo.Entidades.instrumento", "instrumento")
+                        .WithMany("Equipamiento")
+                        .HasForeignKey("instrumentoid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SalasDeEnsayo.Entidades.saladeensayo", "salasdeensayo")
+                        .WithMany("equipamiento")
+                        .HasForeignKey("salasdeensayoid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("instrumento");
+
+                    b.Navigation("salasdeensayo");
+                });
+
+            modelBuilder.Entity("SalasDeEnsayo.Entidades.instrumento", b =>
+                {
+                    b.Navigation("Equipamiento");
+                });
+
             modelBuilder.Entity("SalasDeEnsayo.Entidades.saladeensayo", b =>
                 {
+                    b.Navigation("equipamiento");
+
                     b.Navigation("reservas");
                 });
 

@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SalasDeEnsayo.Entidades;
-using SalasDeEnsayo.Interfaces;
-
-namespace SalasDeEnsayo.Infraestructura;
+﻿namespace SalasDeEnsayo.Infraestructura;
 public class AppDbContext : DbContext, IAppDbContext
 {
     public AppDbContext()
@@ -16,6 +12,8 @@ public class AppDbContext : DbContext, IAppDbContext
 
     public DbSet<saladeensayo> saladeensayo { get; set; }
     public DbSet<tipodesala> tipodesala { get; set; }
+    public DbSet<instrumento> instrumento { get; set; }
+    public DbSet<saladeensayoequipamiento> saladeensayoequipamiento { get; set; }
     public DbSet<listadeprecio> listadeprecio { get; set; }
     public DbSet<reserva> reserva { get; set; }
 
