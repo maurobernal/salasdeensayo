@@ -46,11 +46,7 @@ builder.Services.AddRateLimiter(delegate (RateLimiterOptions option)
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
-<<<<<<< HEAD
 string conn = "Server=172.0.0.14;Database=SEAA;user=TestUser;Password=Test2023!;Encrypt=true;TrustServerCertificate=True\"";
-=======
-string conn = "Server=172.0.0.14;Database=SEMR;user=TestUser;Password=Test2023!;Encrypt=true;TrustServerCertificate=True\"";
->>>>>>> 0425b26e3dbd324ba73832f131ec632d3399901a
 builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlServer(conn));
 
 var app = builder.Build();
