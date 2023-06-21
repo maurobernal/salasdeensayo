@@ -37,9 +37,12 @@ public class ListaDePrecioController : ControllerBase
 
     public IActionResult Get(int tipodesalaid, int id)
     {
-        var tipodesala = _context.tipodesala.Where(x => x.id == tipodesalaid).Select(x => x).FirstOrDefault();
-        if (tipodesala == null) return NotFound();
-        var entidad = _context.listadeprecio.Where(w => w.tiposalaid == tipodesalaid).Include(s => s.tiposala).Select(s => s).FirstOrDefault();
+        var validateTipodesala = _context.tipodesala.Where(x => x.id == tipodesalaid).Select(x => x).FirstOrDefault();
+        var validateLista = _context.listadeprecio.Where(x => x.id == id).Select(x => x).FirstOrDefault();
+        if (validateLista == null) return NotFound("la lista de pricio no existe");
+        if (validateTipodesala == null) return NotFound("el tipo de sala no existe");
+        var entidad = _context.listadeprecio.Where(w => w.id == id).Include(s => s.tiposala).Where(w => w.tiposala.id == tipodesalaid).Select(s => s).FirstOrDefault();
+        if (entidad == null) return NotFound("esta lista de precio no existe en el tipo de sala");
         var dto = _mapper.Map<ListaDePrecioGetDTO>(entidad);
 
         return Ok(dto);
@@ -58,18 +61,20 @@ public class ListaDePrecioController : ControllerBase
 
         return Ok(dto);
     }
+
+
     [HttpPut("TiposDeSala/{tipodesalaid}/listadeprecio/{id}")]
 
 
-    public IActionResult Put(int id, [FromBody] ListaDePrecioUpdateDTO dto,int tipodesalaid)
+    public IActionResult Put(int id, [FromBody] ListaDePrecioUpdateDTO dto, int tipodesalaid)
     {
         var tipodesala = _context.tipodesala.Where(x => x.id == tipodesalaid).Select(x => x).FirstOrDefault();
         if (tipodesala == null) return NotFound("el tipo de sala no existe");
-        
+
 
         if (id != dto.id) return NotFound("el id enviado por parametro no coincide con el del cuerpo de la req");
 
-        var entidad = _context.listadeprecio.Where(w => w.tiposalaid == tipodesalaid).FirstOrDefault();
+        var entidad = _context.listadeprecio.Where(w => w.id == id).Include(s => s.tiposala).Where(w => w.tiposala.id == tipodesalaid).Select(s => s).FirstOrDefault();
 
         if (entidad == null) return NotFound("no existe esa lista de prcio en este tipo");
         if (entidad.tiposalaid != tipodesalaid) NotFound("el id del tipo de sala no coincide con el de la lista de precio");
@@ -81,24 +86,23 @@ public class ListaDePrecioController : ControllerBase
 
 
     [HttpDelete("TiposDeSala/{tipodesalaid}/listadeprecio/{id}")]
-    public IActionResult EliminarSalaDeEnsayo(int id,int tipodesalaid)
+    public IActionResult EliminarSalaDeEnsayo(int id, int tipodesalaid)
     {
         var tipodesala = _context.tipodesala.Where(x => x.id == tipodesalaid).Select(x => x).FirstOrDefault();
         if (tipodesala == null) return NotFound("el tipo de sala no existe");
 
         var entidad = _context.listadeprecio.Where(w => w.tiposalaid == tipodesalaid).FirstOrDefault();
-        if (entidad == null) return NotFound("no existe esa lista de prcio en este tipo");
-        if (entidad.tiposalaid != tipodesalaid) NotFound("el id del tipo de sala no coincide con el de la lista de precio");
+        if (entidad == null) return NotFound("la lista de precio no existe");
 
-        var entity = _context.listadeprecio.Where(w => w.id == id).Select(s => s).FirstOrDefault();
 
-        if (entity == null) return NotFound(id);
+        var entity = _context.listadeprecio.Where(w => w.id == id).Include(s => s.tiposala).Where(w => w.tiposala.id == tipodesalaid).Select(s => s).FirstOrDefault();
+
+
+        if (entity == null) return NotFound("no existe esa lista de precio en este tipo");
+
 
         _context.listadeprecio.Remove(entity);
-
         _context.SaveChanges();
-
-
 
         return Ok(entity.id);
     }
