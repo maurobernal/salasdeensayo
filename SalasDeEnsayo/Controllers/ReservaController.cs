@@ -45,6 +45,10 @@ namespace SalasDeEnsayo.Controllers
             var cant = _context.saladeensayo.Where(w => w.id == dto.salaDeEnsayoId).Count();
             if (cant == 0) return NotFound($"El tipo de sala no fue encontrado" + dto.salaDeEnsayoId);
 
+            if (dto.fechaDesde < DateTime.Now.AddDays(1)) return NotFound($"La fecha 'desde' debe ser mayor a la fecha de 'hoy + 1 dÃ­a' {dto.fechaDesde}");
+            if (dto.fechaHasta > new DateTime(2026, 01, 01)) return NotFound($"La fecha 'hasta' no debe ser mayor a la fecha de '01/01/2026' {dto.fechaDesde}");
+            if (dto.fechaHasta < dto.fechaDesde.AddHours(2)) return BadRequest("La fecha hasta debe tener una diferencia horaria de por lo menos 2 horas con la fecha desde");
+
             //Mapers
             entidad = _mapper.Map<reserva>(dto);
 
@@ -76,6 +80,9 @@ namespace SalasDeEnsayo.Controllers
 
             if (entity == null) return NotFound(id);
 
+            if (entity.confirmado) return BadRequest("No se puede eliminar una reserva confirmada");
+            if (entity.fechaInicio < DateTime.Now.AddHours(4)) return BadRequest("No se puede eliminar una reserva con una diferencia horaria de menos de 4 horas");
+
             _context.reserva.Remove(entity);
             _context.SaveChanges();
 
@@ -89,6 +96,9 @@ namespace SalasDeEnsayo.Controllers
                 .Where(w => w.id == id)
                 .FirstOrDefault();
             if (id != entity.id) return BadRequest();
+
+            if (entity.fechaDeConfirmacion < entity.fechaInicio.AddHours(2)) return BadRequest("La fecha de confirmacion debe tener una diferencia horaria de por lo menos 2 horas con la fecha de inicio");
+
             entity.fechaDeConfirmacion = DateTime.Now;
             entity.confirmado = true;
             _context.SaveChanges();
