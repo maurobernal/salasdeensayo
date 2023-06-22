@@ -1,4 +1,6 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using front.Services;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews()
@@ -7,6 +9,7 @@ builder.Services.AddControllersWithViews()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver());
 // Add Kendo UI services to the services container"
 builder.Services.AddKendo();
+builder.Services.AddSingleton<ISalaDeEnsayosAPI, SalaDeEnsayoAPI>();
 
 var app = builder.Build();
 

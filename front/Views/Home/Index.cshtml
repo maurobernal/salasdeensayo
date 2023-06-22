@@ -1,70 +1,54 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+
 }
+<div class="container">
+    @using (Html.BeginForm("GuardarSala", "Salas", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-1">
+                <label>Tipos de Sala:</label>
+            </div>
+            <div class="col-5">
+                @(Html.Kendo().DropDownList()
+                    .Name("lbx_tiposdesala")
+                    .AutoBind(false).Filter(FilterType.Contains)
+                    .SelectedIndex(0)
+                    .OptionLabel("seleccione sala")
+                    .DataSource(d => d.Read("GetList", "TipoDeSala"))
+                    .DataTextField("Descripcion")
+                    .DataValueField("Id")
 
-<div class="placeholders mb-2">
-    <div class="row d-flex justify-content-start">
-        <div class="col-md-2 mb-3 placeholder">
-            <img class="img-fluid " alt="200x200" src="~/Images/200.png">
+                    )
+            </div>
         </div>
-        <div class="col-md-3">
-            <h2>Lorem ipsum dolor sit amet...</h2>
-            <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book.
-            </p>
-            <p>
-                @(Html.Kendo().Button().Name("PrimaryButton").HtmlAttributes(new { @class = "k-primary" }).Content("Primary Button"))
-            </p>
-        </div>
-        <div class="col-md-3">
-            <h2>&nbsp;</h2>
-            <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book.
-            </p>
-            <p>
-                @(Html.Kendo().Button().Name("TextButton").Content("Button"))
-            </p>
-        </div>
-        <div class="col-md-3">
-            <h2>&nbsp;</h2>
-            <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book.
-            </p>
-            <p>
-                @(Html.Kendo().Button().Name("Button").Content("Button"))
-            </p>
-        </div>
-    </div>
-</div>
+        <div class="row">
+            <div class="col-5">
+                @(Html.Kendo()
+                    .TextBox()
+                    .Name("tbx_descripcion").Placeholder("Descripción")
+                    .Label(l => l.Content("Descripción")))
 
-<div class="row">
-    <div class="col-12">
-        @(Html.Kendo().Grid <front.Models.OrderViewModel>()
-                            .Name("grid")
-                            .Columns(columns =>
-                            {
-                                columns.Bound(p => p.OrderID).Filterable(false);
-                                columns.Bound(p => p.Freight);
-                                columns.Bound(p => p.OrderDate).Format("{0:MM/dd/yyyy}");
-                                columns.Bound(p => p.ShipName);
-                                columns.Bound(p => p.ShipCity);
-                            })
-                            .Pageable()
-                            .Sortable()
-                            .Scrollable()
-                            .Filterable()
-                            .HtmlAttributes(new { style = "height:550px;" })
-                            .DataSource(dataSource => dataSource
-                                .Ajax()
-                                .PageSize(20)
-                                .Read(read => read.Action("Orders_Read", "Grid"))
-                             )
-        )
-    </div>
+            </div>
+        </div>
+        <div class="row text-center p-2">
+            <div class="col-5">
+                @(Html.Kendo().Button().Name("btn_submit")
+                    .Content("Crear")
+                    .Icon("plus")
+                    )
+
+            </div>
+        </div>
+    }
+
+
+
+
+
+
+
+
+
+
 </div>

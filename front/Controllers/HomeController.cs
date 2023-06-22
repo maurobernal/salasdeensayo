@@ -1,17 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace front.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        private readonly ISalaDeEnsayosAPI _service;
+
+        public HomeController(ISalaDeEnsayosAPI service) =>
+            _service = service;
+
+        public IActionResult Index() => View();
 
         public IActionResult About()
         {
