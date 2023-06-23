@@ -15,17 +15,17 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
-	<link href="https://kendo.cdn.telerik.com/2021.3.1109/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
-	<link href="https://kendo.cdn.telerik.com/2021.3.1109/styles/kendo.bootstrap-main.min.css" rel="stylesheet" type="text/css" />
-	<script src="https://kendo.cdn.telerik.com/2021.3.1109/js/jquery.min.js"></script>
-	<script src="https://kendo.cdn.telerik.com/2021.3.1109/js/jszip.min.js"></script>
-	<script src="https://kendo.cdn.telerik.com/2021.3.1109/js/kendo.all.min.js"></script>
-	<script src="https://kendo.cdn.telerik.com/2021.3.1109/js/kendo.aspnetmvc.min.js"></script>
+    <link href="https://kendo.cdn.telerik.com/2021.3.1109/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://kendo.cdn.telerik.com/2021.3.1109/styles/kendo.bootstrap-main.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://kendo.cdn.telerik.com/2021.3.1109/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2021.3.1109/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2021.3.1109/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2021.3.1109/js/kendo.aspnetmvc.min.js"></script>
 </head>
 <body class="k-content">
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid d-flex justify-content-between p-0">
-            <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">Your .NET Core Application</a>
+            <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">Salas de Ensayo</a>
             <button id="configure" class="k-rpanel-toggle k-button k-primary btn-toggle">
                 <span class="k-icon k-i-menu"></span>
             </button>
@@ -34,14 +34,14 @@
     <div id="responsive-panel" class="navbar navbar-dark bg-light mb-4">
         <kendo-responsivepanel name="responsive-panel" auto-close="false" breakpoint="768" orientation="top">
             @(Html.Kendo().Menu()
-                        .Name("Menu")
-                        .Items(items =>
-                        {
-                            items.Add().Text("Home").Action("Index", "Home", new { area = "" });
-                            items.Add().Text("About").Action("About", "Home", new { area = "" });
-                            items.Add().Text("Contact").Action("Contact", "Home", new { area = "" });
-                        })
-            )
+                .Name("Menu")
+                .Items(items =>
+                {
+                    items.Add().Text("Home").Action("Index", "Home", new { area = "" });
+                    items.Add().Text("Salas").Action("Index", "Salas", new { area = "" });
+
+                })
+                )
         </kendo-responsivepanel>
     </div>
 

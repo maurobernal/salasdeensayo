@@ -12,7 +12,7 @@
             <div class="col-5">
                 @(Html.Kendo().DropDownList()
                     .Name("lbx_tiposdesala")
-                    .AutoBind(false).Filter(FilterType.Contains)
+                    .AutoBind(true).Filter(FilterType.Contains)
                     .SelectedIndex(0)
                     .OptionLabel("seleccione sala")
                     .DataSource(d => d.Read("GetList", "TipoDeSala"))

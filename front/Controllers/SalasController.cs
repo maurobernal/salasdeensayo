@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Mvc;
 
 namespace front.Controllers
 {
@@ -19,6 +21,17 @@ namespace front.Controllers
             };
             var res = _service.SalaDeEnsayoPost(entidad);
             return View(res);
+        }
+
+        [HttpGet]
+        public IActionResult Index() => View();
+
+        [HttpGet]
+        public IActionResult GetSalas([DataSourceRequest] DataSourceRequest request)
+        {
+            return Json(
+                _service.SalaDeEnsayoGetList()
+                .ToDataSourceResult(request));
         }
 
     }

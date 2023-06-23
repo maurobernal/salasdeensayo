@@ -1,0 +1,60 @@
+﻿<div class="container">
+    <h1>Salas disponibles</h1>
+
+    <div class="card">
+        <div class="card-header bg-light">
+
+            <div class="row">
+                Filtros....
+            </div>
+            <div class="row">
+                @Html.Kendo().Button().Name("Btn_Listar").Icon("list").Content("Listar")
+
+            </div>
+        </div>
+
+        <div class="card-body">
+            @(
+                Html.Kendo().Grid<SalasDeEnsayoDTO>()
+                .Name("Grilla_Salas")
+                .DataSource(d =>
+                {
+                    d.WebApi()
+                    .Group(g => g.Add(p => p.TipoDeSala.Descripcion))
+                    .Read("GetSalas", "Salas");
+                })
+                .Columns(c =>
+                {
+                    c.Bound(p => p.Descripcion).Title("Descripción de Sala").Filterable(true);
+                    c.Bound(p => p.TipoDeSala.Descripcion).Title("Tipo de Sala").Filterable(true);
+                    c.Bound(p => p.Id).Filterable(false);
+
+
+                })
+                .AutoBind(false)
+                .Filterable()
+                .Pageable()
+                .Groupable()
+                .Scrollable()
+                .Sortable()
+                .ToolBar(t => { t.Pdf(); t.Excel(); })
+                )
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+
+
+</div>
+
