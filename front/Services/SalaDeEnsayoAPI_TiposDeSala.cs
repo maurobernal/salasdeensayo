@@ -2,23 +2,28 @@
 {
     public partial class SalaDeEnsayoAPI : ISalaDeEnsayosAPI
     {
+        private HttpClient _client;
+        public SalaDeEnsayoAPI(IHttpClientFactory httpClientFactory)
+        => _client = httpClientFactory.CreateClient("ApiSalaDeEnsayo");
+
+
         public int TiposDeSalaDeletById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public TiposDeSalaDTO TiposDeSalaGetById(int id)
+        public async Task<TiposDeSalaDTO> TiposDeSalaGetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var peticion = await _client.GetAsync($"TiposDeSala/{id}");
+            var res = await peticion.Content.ReadFromJsonAsync<TiposDeSalaDTO>();
+            return res;
         }
 
-        public List<TiposDeSalaDTO> TiposDeSalaGetList()
+        public async Task<List<TiposDeSalaDTO>> TiposDeSalaGetListAsync()
         {
-            var list = new List<TiposDeSalaDTO>();
-            list.Add(new TiposDeSalaDTO() { Id = 1, Descripcion = "Sala Confort" });
-            list.Add(new TiposDeSalaDTO() { Id = 2, Descripcion = "Sala Extra" });
-            list.Add(new TiposDeSalaDTO() { Id = 3, Descripcion = "Sala Plus" });
-            return list;
+            var peticion = await _client.GetAsync("TiposDeSala");
+            var res = await peticion.Content.ReadFromJsonAsync<List<TiposDeSalaDTO>>();
+            return res;
         }
 
         public int TiposDeSalaPost(TiposDeSalaDTO entity)

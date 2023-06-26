@@ -10,6 +10,10 @@ builder.Services.AddControllersWithViews()
 // Add Kendo UI services to the services container"
 builder.Services.AddKendo();
 builder.Services.AddSingleton<ISalaDeEnsayosAPI, SalaDeEnsayoAPI>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddHttpClient("ApiSalaDeEnsayo", h => h.BaseAddress =
+new Uri("https://arg.globalassistgroup.com/saladeensayoapi/api/"));
+
 
 var app = builder.Build();
 

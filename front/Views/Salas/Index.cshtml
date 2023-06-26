@@ -35,13 +35,13 @@
                 .DataSource(d =>
                 {
                     d.WebApi()
-                    .Group(g => g.Add(p => p.TipoDeSala.Descripcion))
+                    .Group(g => g.Add(p => p.Tipo.Descripcion))
                     .Read(r => r.Action("GetSalas", "Salas").Data("parametrosGrilla"));
                 })
                 .Columns(c =>
                 {
                     c.Bound(p => p.Descripcion).Title("Descripción de Sala").Filterable(true);
-                    c.Bound(p => p.TipoDeSala.Descripcion).Title("Tipo de Sala").Filterable(true);
+                    c.Bound(p => p.Tipo.Descripcion).Title("Tipo de Sala").Filterable(true);
                     c.Bound(p => p.Id).Filterable(false);
 
 

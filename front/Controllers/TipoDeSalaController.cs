@@ -10,6 +10,6 @@ namespace front.Controllers
         public TipoDeSalaController(ISalaDeEnsayosAPI service) => _service = service;
 
         [HttpGet]
-        public IActionResult GetList() => Json(_service.TiposDeSalaGetList());
+        public async Task<IActionResult> GetList() => Json(await _service.TiposDeSalaGetListAsync());
     }
 }

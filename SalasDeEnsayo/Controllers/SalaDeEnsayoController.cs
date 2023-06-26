@@ -27,16 +27,18 @@ namespace SalasDeEnsayo.Controllers
         }
 
 
-        [HttpGet()]
-        public IActionResult RecuperarSalasDeEnsayos()
+        [HttpGet]
+        public IActionResult RecuperarSalasDeEnsayos(int tipo)
         {
             var entidad = _context.saladeensayo
                 .Include(i => i.tipo)
                 .Include(i => i.reservas)
+                .Where(w => tipo == 0 || w.tipodesalaid == tipo)
                 .OrderBy(o => o.id).Select(s => s).ToList();
             var dto = _mapper.Map<List<SalaDeEnsayoGetDTO>>(entidad);
             return Ok(dto);
         }
+
 
 
         [HttpPost]
