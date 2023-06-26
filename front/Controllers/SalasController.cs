@@ -12,14 +12,14 @@ namespace front.Controllers
 
 
         [HttpPost]
-        public IActionResult GuardarSala(int lbx_tiposdesala, string tbx_descripcion)
+        public async Task<IActionResult> GuardarSala(int lbx_tiposdesala, string tbx_descripcion)
         {
             SalasDeEnsayoDTO entidad = new()
             {
                 Descripcion = tbx_descripcion,
                 TipoDeSalaId = lbx_tiposdesala
             };
-            var res = _service.SalaDeEnsayoPost(entidad);
+            var res = await _service.SalaDeEnsayoPostAsync(entidad);
             return View(res);
         }
 

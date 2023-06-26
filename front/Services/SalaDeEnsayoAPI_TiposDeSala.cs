@@ -26,9 +26,11 @@
             return res;
         }
 
-        public int TiposDeSalaPost(TiposDeSalaDTO entity)
+        public async Task<int> TiposDeSalaPostAsync(TiposDeSalaDTO entity)
         {
-            throw new NotImplementedException();
+            var peticion = await _client.PostAsJsonAsync("TiposDeSala", entity);
+            var res = await peticion.Content.ReadFromJsonAsync<int>();
+            return res;
         }
 
         public int TiposDeSalaUpdateById(TiposDeSalaDTO entity)

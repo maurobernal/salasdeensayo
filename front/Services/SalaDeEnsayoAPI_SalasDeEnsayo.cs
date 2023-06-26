@@ -20,12 +20,14 @@ public partial class SalaDeEnsayoAPI : ISalaDeEnsayosAPI
         var peticion = await _client.GetAsync($"SalaDeEnsayo?tipo={tipodesalaid}");
         var res = await peticion.Content.ReadFromJsonAsync<List<SalasDeEnsayoDTO>>();
         return res;
-
     }
 
-    public int SalaDeEnsayoPost(SalasDeEnsayoDTO entity)
+    public async Task<int> SalaDeEnsayoPostAsync(SalasDeEnsayoDTO entity)
     {
-        return new Random().Next(100);
+        var peticion = await _client.PostAsJsonAsync("SalaDeEnsayo", entity);
+        _client.DefaultRequestHeaders.Add("Accept", "application/json");
+        var res = await peticion.Content.ReadFromJsonAsync<int>();
+        return res;
     }
 
     public int SalaDeEnsayoUpdateById(SalasDeEnsayoDTO entity)
