@@ -9,7 +9,7 @@ public interface ISalaDeEnsayosAPI
     public int TiposDeSalaDeletById(int id);
 
     public SalasDeEnsayoDTO SalaDeEnsayoGetById(int id);
-    public List<SalasDeEnsayoDTO> SalaDeEnsayoGetList();
+    public List<SalasDeEnsayoDTO> SalaDeEnsayoGetList(int tiposalaid);
     public int SalaDeEnsayoPost(SalasDeEnsayoDTO entity);
     public int SalaDeEnsayoUpdateById(SalasDeEnsayoDTO entity);
     public int SalaDeEnsayoDeletById(int id);

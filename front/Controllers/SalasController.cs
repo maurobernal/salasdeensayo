@@ -27,10 +27,10 @@ namespace front.Controllers
         public IActionResult Index() => View();
 
         [HttpGet]
-        public IActionResult GetSalas([DataSourceRequest] DataSourceRequest request)
+        public IActionResult GetSalas([DataSourceRequest] DataSourceRequest request, int tipodesalaid)
         {
             return Json(
-                _service.SalaDeEnsayoGetList()
+                _service.SalaDeEnsayoGetList(tipodesalaid)
                 .ToDataSourceResult(request));
         }
 

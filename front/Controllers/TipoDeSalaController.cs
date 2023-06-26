@@ -5,7 +5,7 @@ namespace front.Controllers
 {
     public class TipoDeSalaController : Controller
     {
-        private ISalaDeEnsayosAPI _service;
+        private readonly ISalaDeEnsayosAPI _service;
 
         public TipoDeSalaController(ISalaDeEnsayosAPI service) => _service = service;
 

@@ -1,14 +1,29 @@
-﻿<div class="container">
+﻿<script src="~/js/salas_index.js"></script>
+
+<div class="container">
     <h1>Salas disponibles</h1>
 
     <div class="card">
         <div class="card-header bg-light">
 
             <div class="row">
-                Filtros....
+                @(Html.Kendo().DropDownList()
+                    .Name("lbx_tiposdesala")
+                    .AutoBind(true).Filter(FilterType.Contains)
+                    .SelectedIndex(0)
+                    .OptionLabel("seleccione sala")
+                    .DataSource(d => d.Read("GetList", "TipoDeSala")
+                    )
+                    .DataTextField("Descripcion")
+                    .DataValueField("Id")
+
+                    )
             </div>
-            <div class="row">
-                @Html.Kendo().Button().Name("Btn_Listar").Icon("list").Content("Listar")
+            <div class="row p-2 ">
+                @(Html.Kendo().Button().Name("Btn_Listar")
+                    .Icon("list").Content("Listar")
+                    .Events(e => e.Click("listarSalas"))
+                    )
 
             </div>
         </div>
@@ -21,7 +36,7 @@
                 {
                     d.WebApi()
                     .Group(g => g.Add(p => p.TipoDeSala.Descripcion))
-                    .Read("GetSalas", "Salas");
+                    .Read(r => r.Action("GetSalas", "Salas").Data("parametrosGrilla"));
                 })
                 .Columns(c =>
                 {
