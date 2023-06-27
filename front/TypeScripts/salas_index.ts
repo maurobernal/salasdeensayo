@@ -9,3 +9,8 @@ function parametrosGrilla(): any {
         tipodesalaid: $('#lbx_tiposdesala')!.data('kendoDropDownList')!.value(),
     };
 }
+
+function onError(e: Event): any {
+    console.log('Error', e);
+}
+

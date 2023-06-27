@@ -11,8 +11,8 @@ public interface ISalaDeEnsayosAPI
     public Task<SalasDeEnsayoDTO> SalaDeEnsayoGetByIdAsync(int id);
     public Task<List<SalasDeEnsayoDTO>> SalaDeEnsayoGetListAsync(int tiposalaid);
     public Task<int> SalaDeEnsayoPostAsync(SalasDeEnsayoDTO entity);
-    public int SalaDeEnsayoUpdateById(SalasDeEnsayoDTO entity);
-    public int SalaDeEnsayoDeletById(int id);
+    public Task<int> SalaDeEnsayoUpdateByIdAsync(SalasDeEnsayoDTO entity);
+    public Task<int> SalaDeEnsayoDeletByIdAsync(int id);
 
 
 

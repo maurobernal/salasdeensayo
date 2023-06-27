@@ -7,17 +7,7 @@
         <div class="card-header bg-light">
 
             <div class="row">
-                @(Html.Kendo().DropDownList()
-                    .Name("lbx_tiposdesala")
-                    .AutoBind(true).Filter(FilterType.Contains)
-                    .SelectedIndex(0)
-                    .OptionLabel("seleccione sala")
-                    .DataSource(d => d.Read("GetList", "TipoDeSala")
-                    )
-                    .DataTextField("Descripcion")
-                    .DataValueField("Id")
-
-                    )
+                @Html.Partial("_TiposDeSala")
             </div>
             <div class="row p-2 ">
                 @(Html.Kendo().Button().Name("Btn_Listar")
@@ -32,27 +22,47 @@
             @(
                 Html.Kendo().Grid<SalasDeEnsayoDTO>()
                 .Name("Grilla_Salas")
+                .Editable(e => e.Mode(GridEditMode.InLine))
+
                 .DataSource(d =>
                 {
                     d.WebApi()
+                    .Batch(false)
+                    .Events(e => e.Error("onError"))
+                    .Model(m =>
+                    {
+                        m.Id(p => p.Id);
+                        m.Field(p => p.Id).Editable(false);
+
+                    })
                     .Group(g => g.Add(p => p.Tipo.Descripcion))
-                    .Read(r => r.Action("GetSalas", "Salas").Data("parametrosGrilla"));
+                    .Read(r => r.Action("GetSalas", "Salas").Data("parametrosGrilla"))
+                    .Create(r => r.Action("CreateSalas", "Salas").Data("parametrosGrilla"))
+                    .Destroy(d => d.Action("RemoveSalas", "Salas"))
+                    .Update("UpdateSalas", "Salas");
+
                 })
                 .Columns(c =>
                 {
                     c.Bound(p => p.Descripcion).Title("Descripción de Sala").Filterable(true);
-                    c.Bound(p => p.Tipo.Descripcion).Title("Tipo de Sala").Filterable(true);
                     c.Bound(p => p.Id).Filterable(false);
+                    c.Bound(p => p.TipoDeSalaId).Filterable(false)
+                    .ClientTemplate(" <span class='text-primary'> #: (typeof(Tipo) == 'undefined' || Tipo ==null)?  '' : Tipo.Descripcion # </span>   ")
+                    //.EditorTemplateName("EditorTipoDeSala")
+                    .EditorViewData("prueba")
+                    ;
+                    c.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
 
 
                 })
+
                 .AutoBind(false)
                 .Filterable()
                 .Pageable()
                 .Groupable()
                 .Scrollable()
                 .Sortable()
-                .ToolBar(t => { t.Pdf(); t.Excel(); })
+                .ToolBar(t => { t.Pdf(); t.Excel(); t.Create(); })
                 )
 
 

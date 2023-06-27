@@ -2,9 +2,11 @@
 
 public partial class SalaDeEnsayoAPI : ISalaDeEnsayosAPI
 {
-    public int SalaDeEnsayoDeletById(int id)
+    public async Task<int> SalaDeEnsayoDeletByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var peticion = await _client.DeleteAsync($"SalaDeEnsayo/{id}");
+        var res = await peticion.Content.ReadFromJsonAsync<int>();
+        return res;
     }
 
     public async Task<SalasDeEnsayoDTO> SalaDeEnsayoGetByIdAsync(int id)
@@ -25,13 +27,14 @@ public partial class SalaDeEnsayoAPI : ISalaDeEnsayosAPI
     public async Task<int> SalaDeEnsayoPostAsync(SalasDeEnsayoDTO entity)
     {
         var peticion = await _client.PostAsJsonAsync("SalaDeEnsayo", entity);
-        _client.DefaultRequestHeaders.Add("Accept", "application/json");
         var res = await peticion.Content.ReadFromJsonAsync<int>();
         return res;
     }
 
-    public int SalaDeEnsayoUpdateById(SalasDeEnsayoDTO entity)
+    public async Task<int> SalaDeEnsayoUpdateByIdAsync(SalasDeEnsayoDTO entity)
     {
-        throw new NotImplementedException();
+        var peticion = await _client.PutAsJsonAsync($"SalaDeEnsayo/{entity.Id}", entity);
+        var res = await peticion.Content.ReadFromJsonAsync<int>();
+        return res;
     }
 }

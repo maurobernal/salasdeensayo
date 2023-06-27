@@ -1,0 +1,20 @@
+﻿@model SalasDeEnsayoDTO
+<h1>
+    Editor
+    @if (Model != null)
+    {
+        var ob = Model;
+    }
+</h1>
+@(Html.Kendo().DropDownList()
+                    .Name("lbx_tiposdesala")
+
+                    .AutoBind(true).Filter(FilterType.Contains)
+                    .SelectedIndex(0)
+                    .OptionLabel("seleccione sala")
+                    .DataSource(d => d.Read("GetList", "TipoDeSala")
+                    )
+                    .DataTextField("Descripcion")
+                    .DataValueField("Id")
+
+                    )
