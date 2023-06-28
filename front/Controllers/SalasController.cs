@@ -1,5 +1,6 @@
 ﻿using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography.X509Certificates;
 
@@ -28,6 +29,7 @@ namespace front.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public IActionResult Index() => View();
 
         [HttpGet]

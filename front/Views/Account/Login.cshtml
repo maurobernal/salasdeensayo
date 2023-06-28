@@ -1,0 +1,68 @@
+﻿@{
+    Layout = "_LayoutPure";
+    string error = ViewData["error"] as string;
+    string exito = ViewData["exito"] as string;
+    string returnurl = ViewData["returnurl"] as string;
+}
+
+<div class="row mt-2 p-2 align-middle">
+
+    @if (exito == null)
+    {
+
+        <div class="col-4">
+        </div>
+        <div class="col">
+            @using (Html.BeginForm("login", "Account", FormMethod.Post))
+            {
+                <input value="@returnurl" id="ReturnUrl" name="ReturnUrl" type="hidden" />
+                <div class="card align-middle">
+                    <div class="card-header bg-dark text-center">
+                        <h1 class="text-light">Login</h1>
+                    </div>
+                    <div class="card-body bg-light align-content-center">
+
+                        <div class="row text-center p-2 m-2">
+                            <Label>Usuario:</Label>
+                            <span class="ml-2">   @Html.Kendo().TextBox().Name("user")</span>
+
+                        </div>
+                        <div class="row text-center p-2 m-2">
+                            <Label>Password:</Label>
+                            <span class="ml-2">
+                                @Html.Kendo().TextBox().Name("password").HtmlAttributes(new {type="password", width="200px"})
+                            </span>
+
+
+                        </div>
+                    </div>
+                    <div class="card-footer bg-black text-center">
+                        @Html.Kendo().Button().Name("Btn_Login").Icon("user").Content("Iniciar sesión")
+                        @if (error != null)
+                        {
+                            <span class="text-danger">
+                                @error
+                            </span>
+                        }
+
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-4">
+        </div>
+    }
+    else
+    {
+        <div class="row text-center p-3 ">
+            <h1 class="text-light">@exito</h1>
+            <a href="/" class="btn btn-primary"> Home</a>
+        </div>
+    }
+
+
+</div>
+
+
+
+

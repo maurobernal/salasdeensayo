@@ -1,0 +1,11 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <span>@User.Identity.Name</span>
+    <a class="text-info" href="@(Url.Action("LogOut","Account"))"> Cerrar sesión</a>
+
+}
+else
+{
+
+    <a class="text-info" href="@(Url.Action("Login","Account"))"> Iniciar sesión</a>
+}

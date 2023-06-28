@@ -7,8 +7,6 @@ namespace front.DTOs
         [UIHint("EditorTipoDeSala")]
         public int TipoDeSalaId { get; set; }
 
-
-
         public TiposDeSalaDTO Tipo { get; set; }
 
 
