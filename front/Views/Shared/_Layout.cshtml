@@ -34,15 +34,7 @@
     <div id="responsive-panel" class="navbar navbar-dark bg-light mb-4">
         <kendo-responsivepanel name="responsive-panel" auto-close="false" breakpoint="768" orientation="top">
             @Html.Partial("_UserPanel")
-            @(Html.Kendo().Menu()
-                .Name("Menu")
-                .Items(items =>
-                {
-                    items.Add().Text("Home").Action("Index", "Home", new { area = "" });
-                    items.Add().Text("Salas").Action("Index", "Salas", new { area = "" });
-
-                })
-                )
+            @Html.Partial("_Menu")
         </kendo-responsivepanel>
     </div>
 

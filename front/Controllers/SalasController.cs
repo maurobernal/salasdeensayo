@@ -13,6 +13,9 @@ namespace front.Controllers
         public SalasController(ISalaDeEnsayosAPI service) => _service = service;
 
 
+        public IActionResult CrearSala() => View();
+
+
         [HttpPost]
         public async Task<IActionResult> GuardarSala(int lbx_tiposdesala, string tbx_descripcion)
         {
@@ -29,7 +32,7 @@ namespace front.Controllers
 
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Supervisor")]
         public IActionResult Index() => View();
 
         [HttpGet]

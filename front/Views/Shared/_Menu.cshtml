@@ -1,0 +1,10 @@
+﻿@(Html.Kendo().Menu()
+                .Name("Menu")
+                .Items(items =>
+                {
+                    items.Add().Text("Home").Action("Index", "Home", new { area = "" });
+                    items.Add().Text("Salas").Action("Index", "Salas", new { area = "" });
+                    items.Add().Text("Crear Salas").Action("CrearSala", "Salas", new { area = "" });
+
+                })
+                )

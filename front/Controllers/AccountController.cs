@@ -25,20 +25,36 @@ namespace front.Controllers
         public async Task<IActionResult> Seed()
         {
 
-            var user = new IdentityUser();
-            user.UserName = "admin";
-            user.EmailConfirmed = true;
-            user.Email = "admin@salasdenesayo.com";
+            var usertemp = new IdentityUser();
+            usertemp.UserName = "admin";
+            usertemp.EmailConfirmed = true;
+            usertemp.Email = "admin@salasdenesayo.com";
 
-            var res = await _userManager.FindByEmailAsync(user.Email);
-            if (res == null)
+            var user = await _userManager.FindByEmailAsync(usertemp.Email);
+            if (user == null)
             {
-                await _userManager.CreateAsync(user);
-                string token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                await _userManager.ResetPasswordAsync(user, token, "Pass2023!");
+                await _userManager.CreateAsync(usertemp);
+                string token = await _userManager.GeneratePasswordResetTokenAsync(usertemp);
+                await _userManager.ResetPasswordAsync(usertemp, token, "Pass2023!");
             }
 
-            return Json(user);
+            var role = await _roleManager.FindByIdAsync("Supervisor");
+            if (role == null)
+            {
+                await _roleManager.CreateAsync(new IdentityRole() { Name = "Supervisor" });
+            }
+
+
+            var UsersInRole = await _userManager.GetRolesAsync(user);
+            if (UsersInRole.Where(w => w.Contains("Supervisor")).Count() == 0)
+            {
+                await _userManager.AddToRoleAsync(user, "Supervisor");
+            }
+
+
+
+
+            return Json(usertemp);
         }
 
         [HttpGet]
@@ -48,6 +64,18 @@ namespace front.Controllers
             ViewData["returnurl"] = ReturnUrl;
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Claims()
+        {
+
+            var listClaims = User.Claims.ToList();
+            var res = listClaims.Select(s => new { type = s.Type, value = s.Value }).ToList();
+            return Json(res);
+        }
+
+
+
 
         [HttpPost]
         [AllowAnonymous]
