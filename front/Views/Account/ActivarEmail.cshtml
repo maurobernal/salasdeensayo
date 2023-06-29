@@ -1,0 +1,22 @@
+﻿@{
+    //Layout = "_LayoutPure";
+    string id = ViewData["idUser"] as string;
+    ViewData["Title"] = "Home Page";
+    string returnurl = ViewData["returnurl"] as string;
+}
+
+<div class="row mt-2 p-2 align-middle">
+        <div class="col-4">
+        </div>
+        <div class="col">
+            <div class="btn-link">
+                @Html.ActionLink("Validar Email", "ActivarEmail", "Account", new { id = id } )
+            </div>
+        </div>
+        <div class="col-4">
+        </div>
+</div>
+
+
+
+
