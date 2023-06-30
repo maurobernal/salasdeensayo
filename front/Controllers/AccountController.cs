@@ -13,6 +13,7 @@ namespace front.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<IdentityUserDTO> _siginManager;
 
+
         public AccountController(
             UserManager<IdentityUserDTO> userManager,
             RoleManager<IdentityRole> roleManager,
@@ -58,8 +59,9 @@ namespace front.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login(string ReturnUrl = "")
+        public async Task<IActionResult> Login(string ReturnUrl = "")
         {
+            
             ViewData["returnurl"] = ReturnUrl;
             return View();
         }
@@ -73,8 +75,15 @@ namespace front.Controllers
             return Json(res);
         }
 
-
-
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ActivarEmail(string id)
+        {
+            var identityuser = await _userManager.FindByIdAsync(id);
+            identityuser.EmailConfirmed = true;
+            await _userManager.UpdateAsync(identityuser);
+            return View("Login");
+        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -85,12 +94,17 @@ namespace front.Controllers
             if (!res.Succeeded)
             {
                 ViewData["error"] = "Error al iniciar sesión.";
+                var identityuser = await _userManager.FindByNameAsync(user);
+                if (!identityuser.EmailConfirmed)
+				{
+					ViewData["idUser"] = identityuser.Id;
+					return View("ActivarEmail");
+                }
             }
             else
             {
-                var identityuser = await _userManager.FindByNameAsync(user);
-                //await _siginManager.CreateUserPrincipalAsync(identityuser);
-                ViewData["exito"] = "Ha iniciado correctamente";
+				//await _siginManager.CreateUserPrincipalAsync(identityuser);
+				ViewData["exito"] = "Ha iniciado correctamente";
                 if (ReturnUrl != null && ReturnUrl != "")
                 {
                     return Redirect(ReturnUrl);
@@ -174,3 +188,4 @@ namespace front.Controllers
 
     }
 }
+
