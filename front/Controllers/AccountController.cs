@@ -13,7 +13,6 @@ namespace front.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<IdentityUserDTO> _siginManager;
 
-
         public AccountController(
             UserManager<IdentityUserDTO> userManager,
             RoleManager<IdentityRole> roleManager,
@@ -188,4 +187,3 @@ namespace front.Controllers
 
     }
 }
-
