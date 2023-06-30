@@ -41,6 +41,7 @@
 
   <ItemGroup>
     <Folder Include="Profiles\" />
+    <Folder Include="Views\Instrumento\" />
   </ItemGroup>
 
 </Project>
