@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace front.Controllers
 {
@@ -108,5 +109,69 @@ namespace front.Controllers
             await _siginManager.SignOutAsync();
             return Redirect("/");
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPass() => View();
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPass(string email)
+        {
+            var res = await _userManager.FindByEmailAsync(email);
+            if (res == null)
+            {
+                ViewData["error"] = "Error al encontrar email.";
+                return View();
+
+            }
+            string token = await _userManager.GeneratePasswordResetTokenAsync(res);
+            ViewData["emailUser"] = res.Email;
+            ViewData["tokenUser"] = token;
+            return View("TokenVerificator");
+        }
+
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ChangePass(string Token, string Email)
+        {
+            ViewData["tokenUser"] = Token;
+            ViewData["emailUser"] = Email;
+
+            return View();
+        }
+       
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ChangePass(string Email, string Token, string password, string password2)
+        {
+            var user = await _userManager.FindByEmailAsync(Email);
+            
+
+            if (user == null)
+            {
+                ViewData["error"] = "Error al encontrar usuario";
+                return View();
+            }
+
+            if (password != password2)
+            {
+                ViewData["error"] = "Las contraseñas no coinciden";
+                return View();
+            }
+
+            //await _userManager.UpdateAsync(user);
+           var res= await _userManager.ResetPasswordAsync(user, Token, password);
+            if (!res.Succeeded) {
+                ViewData["error"] = "Contraseña Debil. Intente de nuevo";
+                return View();
+            }
+            return Redirect("Login");
+        }
+
+       
+
     }
 }
