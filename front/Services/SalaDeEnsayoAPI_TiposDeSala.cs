@@ -7,9 +7,11 @@
         => _client = httpClientFactory.CreateClient("ApiSalaDeEnsayo");
 
 
-        public int TiposDeSalaDeletById(int id)
+        public async Task<int> TiposDeSalaDeletById(int id)
         {
-            throw new NotImplementedException();
+            var peticion = await _client.DeleteAsync($"TiposDeSala/{id}");
+            var res = await peticion.Content.ReadFromJsonAsync<int>();
+            return res;
         }
 
         public async Task<TiposDeSalaDTO> TiposDeSalaGetByIdAsync(int id)
@@ -33,9 +35,11 @@
             return res;
         }
 
-        public int TiposDeSalaUpdateById(TiposDeSalaDTO entity)
+        public async Task<int> TiposDeSalaUpdateById(TiposDeSalaDTO entity)
         {
-            throw new NotImplementedException();
+            var peticion = await _client.PutAsJsonAsync($"TiposDeSala/{entity.Id}", entity);
+            var res = await peticion.Content.ReadFromJsonAsync<int>();
+            return res;
         }
     }
 }

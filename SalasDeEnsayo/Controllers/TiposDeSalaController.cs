@@ -61,8 +61,13 @@
         {
 
             AppDbContext ctx = new AppDbContext();
-            tipodesala entidad = ctx.tipodesala.Where(w => w.id == 9).Select(x => x).FirstOrDefault();
+
+            tipodesala entidad = ctx.tipodesala.Where(w => w.id == id).Select(x => x).FirstOrDefault();
             if (entidad == null) return NotFound(id);
+            
+            saladeensayo sala = ctx.saladeensayo.Where(w => w.id == entidad.id).Select(x => x).FirstOrDefault();
+            if (sala != null) throw new Exception("el tipo de sala esta siendo utilizado");
+
             ctx.Remove(entidad);
             ctx.SaveChanges();
             return Ok(entidad.id);

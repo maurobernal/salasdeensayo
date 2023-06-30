@@ -119,22 +119,6 @@ namespace front.Controllers
             else return true;
         }
 
-
-        private bool ContrasenaSegura(string contraseñaSinVerificar)
-        {
-            Regex letras = new Regex(@"[a-zA-z]");
-
-            Regex numeros = new Regex(@"[0-9]");
-            
-            Regex caracEsp = new Regex("[!\"#\\$%&'()*+,-./:;=?@\\[\\]^_`{|}~]");
-            
-            if (!letras.IsMatch(contraseñaSinVerificar)) return false;
-            if (!numeros.IsMatch(contraseñaSinVerificar)) return false;
-            if (!caracEsp.IsMatch(contraseñaSinVerificar)) return false;
-            return true;
-        }
-
-
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Register(UserRegisterDTO entity)
