@@ -1,19 +1,23 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using front.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Text.RegularExpressions;
 
 namespace front.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<IdentityUserDTO> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly SignInManager<IdentityUser> _siginManager;
+        private readonly SignInManager<IdentityUserDTO> _siginManager;
+
 
         public AccountController(
-            UserManager<IdentityUser> userManager,
+            UserManager<IdentityUserDTO> userManager,
             RoleManager<IdentityRole> roleManager,
-            SignInManager<IdentityUser> siginManager)
+            SignInManager<IdentityUserDTO> siginManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -25,7 +29,7 @@ namespace front.Controllers
         public async Task<IActionResult> Seed()
         {
 
-            var usertemp = new IdentityUser();
+            var usertemp = new IdentityUserDTO();
             usertemp.UserName = "admin";
             usertemp.EmailConfirmed = true;
             usertemp.Email = "admin@salasdenesayo.com";
@@ -44,15 +48,11 @@ namespace front.Controllers
                 await _roleManager.CreateAsync(new IdentityRole() { Name = "Supervisor" });
             }
 
-
             var UsersInRole = await _userManager.GetRolesAsync(user);
             if (UsersInRole.Where(w => w.Contains("Supervisor")).Count() == 0)
             {
                 await _userManager.AddToRoleAsync(user, "Supervisor");
             }
-
-
-
 
             return Json(usertemp);
         }
@@ -121,5 +121,71 @@ namespace front.Controllers
             await _siginManager.SignOutAsync();
             return Redirect("/");
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register() => View();
+
+
+        private bool missingData (string email,string password,string user)
+        {
+            if (password == null || email == null || user == null) return false;
+            else return true;
+        }
+
+
+        private bool ContrasenaSegura(string contraseñaSinVerificar)
+        {
+            Regex letras = new Regex(@"[a-zA-z]");
+
+            Regex numeros = new Regex(@"[0-9]");
+            
+            Regex caracEsp = new Regex("[!\"#\\$%&'()*+,-./:;=?@\\[\\]^_`{|}~]");
+            
+            if (!letras.IsMatch(contraseñaSinVerificar)) return false;
+            if (!numeros.IsMatch(contraseñaSinVerificar)) return false;
+            if (!caracEsp.IsMatch(contraseñaSinVerificar)) return false;
+            return true;
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(UserRegisterDTO entity)
+        {
+
+            if(!missingData(entity.Email, entity.Password, entity.User))
+            {
+                ViewData["missingData"] = "Campo (*) obligatorio.";
+                return View();
+            }
+            
+            if(ModelState.Values.ToList().Count()!=0)
+            {
+                ViewData["passworderror"] = "la contrasela debe tener mayus,min, caracter especial, numero y 8 caracteres";
+                return View();
+            }
+           
+
+            var usertemp = new IdentityUserDTO();
+            usertemp.UserName = entity.User;
+            usertemp.EmailConfirmed = false;
+            usertemp.Email = entity.Email;
+
+            var userFind = await _userManager.FindByEmailAsync(usertemp.Email);
+
+            if (userFind == null)
+            {
+                await _userManager.CreateAsync(usertemp);
+                string token = await _userManager.GeneratePasswordResetTokenAsync(usertemp);
+                await _userManager.ResetPasswordAsync(usertemp, token, entity.Password);
+            return Redirect("/account/login");
+            }
+
+            ViewData["error"] = "Error al registar usuario.";
+            return View();
+        }
+
     }
 }
+
