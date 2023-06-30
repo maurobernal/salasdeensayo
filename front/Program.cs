@@ -22,7 +22,7 @@ string conn = "Server=172.0.0.14;Database=SEMB;user=TestUser;Password=Test2023!;
 builder.Services.AddDbContext<IdentityContext>(o => o.UseSqlServer(conn));
 
 builder.Services
-    .AddIdentity<IdentityUser, IdentityRole>(options =>
+    .AddIdentity<IdentityUserDTO, IdentityRole>(options =>
     {
 
         options.SignIn.RequireConfirmedAccount = true;

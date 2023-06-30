@@ -1,8 +1,8 @@
 ﻿@{
     Layout = "_LayoutPure";
-    string error = ViewData["error"] as string;
+    string error = ViewData["missingData"] as string;
     string exito = ViewData["exito"] as string;
-    string returnurl = ViewData["returnurl"] as string;
+    string passwordError = ViewData["passwordError"] as string;
 }
 
 <div class="row mt-2 p-2 align-middle">
@@ -13,9 +13,8 @@
         <div class="col-4">
         </div>
         <div class="col">
-            @using (Html.BeginForm("login", "Account", FormMethod.Post))
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post))
             {
-                <input value="@returnurl" id="ReturnUrl" name="ReturnUrl" type="hidden" />
                 <div class="card align-middle">
                     <div class="card-header bg-dark text-center">
                         <h1 class="text-light">Login</h1>
@@ -23,28 +22,33 @@
                     <div class="card-body bg-light align-content-center">
 
                         <div class="row text-center p-2 m-2">
-                            <Label>Usuario:</Label>
+                            <Label>Email:<span class="text-danger">*</span></Label>
+                            <span class="ml-2">   @Html.Kendo().TextBox().Name("email").HtmlAttributes(new {type="email"})</span>
+                        </div>
+                        <div class="row text-center p-2 m-2">
+                            <Label>Usuario:<span class="text-danger">*</span></Label>
                             <span class="ml-2">   @Html.Kendo().TextBox().Name("user")</span>
 
                         </div>
                         <div class="row text-center p-2 m-2">
-                            <Label>Password:</Label>
+                            <Label>Password:<span class="text-danger">*</span></Label>
                             <span class="ml-2">
                                 @Html.Kendo().TextBox().Name("password").HtmlAttributes(new {type="password", width="200px"})
+                                <strong>@passwordError</strong>
                             </span>
 
 
                         </div>
                     </div>
                     <div class="card-footer bg-black text-center">
-                        @Html.Kendo().Button().Name("Btn_Login").Icon("user").Content("Iniciar sesión")
+                        @Html.Kendo().Button().Name("Btn_Register").Icon("user").Content("Crear Usuario")
                         @if (error != null)
                         {
                             <span class="text-danger">
                                 @error
                             </span>
                         }
-                        <a href="register" class="text-primary">Crear usuario</a>
+
                     </div>
                 </div>
             }
