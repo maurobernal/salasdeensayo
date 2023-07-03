@@ -1,0 +1,33 @@
+﻿@{
+    string error = ViewData["error"] as string;
+}
+<div class="container">
+    @using (Html.BeginForm("ForgotPass", "Account", FormMethod.Post))
+    {
+        <div class="card-header">
+            <h1>¿Olvidó su contraseña?</h1>
+                <h2>Ingrese su mail</h2>
+        </div>
+        <div class="card-body"> 
+            <div class="row">
+                <label> Email: </label>
+                <span class="ml-2">   @Html.Kendo().TextBox().Name("email")</span>
+            </div>
+
+        </div>
+        <div class="card-footer">
+            @Html.Kendo().Button().Name("Btn_Recover").Icon("user").Content("Recuperar Contraseña")
+            @if (error != null)
+            {
+                <span class="text-danger">
+                    @error
+                </span>
+            }
+
+        </div>
+    }
+    
+
+
+
+</div>

@@ -1,0 +1,27 @@
+﻿@{
+    string Token = ViewData["tokenUser"] as string;
+    string Email = ViewData["emailUser"] as string;
+    string error = ViewData["error"] as string;
+}
+<div class="container">
+    
+        <p class="alert-info">
+            Hi!
+        <p class="alert-info">
+            Forgot your password?
+        </p>
+        <p>
+            To reset your password
+        </p>
+        </p>
+        <div class="card-body">
+        @Html.ActionLink("Click Here!", "ChangePass","Account", new { Email = Email, Token = Token})
+            @if (error != null)
+            {
+                <span class="text-danger">
+                    @error
+                </span>
+            }
+        </div>
+    
+</div>
