@@ -1,0 +1,44 @@
+﻿<script src="~/js/tipo_de_sala_index.js"></script>
+
+
+<div class="container">
+    <h1>Tipo de salas disponibles</h1>
+    <div class="card">
+        <div class="card-header bg-light">
+            <div class="row p-2 ">
+                @(Html.Kendo().Button().Name("Btn_ListarSala")
+                    .Icon("list").Content("Listar")
+                    .Events(e => e.Click("listarTipoDeSala"))
+                    )
+            </div>
+        </div>
+        @(
+            Html.Kendo().Grid<TiposDeSalaDTO>()
+            .Name("Grilla_TipoDeSala")
+            .Editable(e => e.Mode(GridEditMode.InLine))
+            .DataSource(d =>
+            {
+                d.WebApi()
+                .Model(m =>
+                {
+                    m.Id(p => p.Id);
+                    m.Field(p => p.Id).Editable(false);
+
+                })
+                .Events(e => e.Error("onErrorTipo"))
+                .Read(r => r.Action("GetTipoDeSala", "TipoDeSala"))
+                .Create(r => r.Action("CreateTipoDeSala", "TipoDeSala"))
+                .Destroy("RemoveTipoDeSal", "TipoDeSala")
+                .Update("UpdateTipoDeSala", "TipoDeSala");
+            })
+            .Columns(c =>
+            {
+                c.Bound(p => p.Id).Filterable(false);
+                c.Bound(p => p.Descripcion).Title("Descripción de Sala").Filterable(true);
+                c.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+            })
+            .AutoBind(true)
+            .ToolBar(t => { t.Pdf(); t.Excel(); t.Create(); })
+            )
+    </div>
+</div>

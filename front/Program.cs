@@ -14,6 +14,7 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddKendo();
 builder.Services.AddSingleton<ISalaDeEnsayosAPI, SalaDeEnsayoAPI>();
 builder.Services.AddSingleton<IInstrumento, Instrumento>();
+builder.Services.AddSingleton<IReserva, Reserva>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpClient("ApiSalaDeEnsayo", h => h.BaseAddress =
 new Uri("https://arg.globalassistgroup.com/saladeensayoapi/api/"));
