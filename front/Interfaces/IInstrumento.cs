@@ -8,6 +8,6 @@ namespace front.Interfaces
         public Task<List<InstrumentoGetDTO>> InstrumentoGetListAsync();
         public Task<int> InstrumentoPostAsync(InstrumentoDTO entity);
         public Task<int> InstrumentoUpdateById(InstrumentoUpdateDTO entity);
-        public Task<int> TiposDeSalaDeleteById(int id);
+        public Task<int> InstrumentoDeleteById(int id);
     }
 }

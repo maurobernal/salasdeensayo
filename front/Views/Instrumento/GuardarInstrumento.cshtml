@@ -1,9 +1,32 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    string missing = ViewData["missingData"] as string;
-
-    @model int;
+    //string missing = ViewData["missingData"] as string;
 }
-<div class="container">
-    <h1> Se ha generado el instrumento @Model</h1>
-</div>
+@using (Html.BeginForm("GuardarSala", "Salas", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-5">
+            @(Html.Kendo()
+                .TextBox()
+                .Name("tbx_marca").Placeholder("Marca")
+                .Label(l => l.Content("Marca")))
+
+        </div>
+        <div class="col-5">
+            @(Html.Kendo()
+                .TextBox()
+                .Name("tbx_descripcion").Placeholder("Descripción")
+                .Label(l => l.Content("Descripción")))
+
+        </div>
+    </div>
+    <div class="row text-center p-2">
+        <div class="col-5">
+            @(Html.Kendo().Button().Name("btn_submit")
+                .Content("Crear")
+                .Icon("plus")
+                )
+
+        </div>
+    </div>
+}

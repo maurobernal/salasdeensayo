@@ -12,11 +12,11 @@ namespace front.Controllers
         public InstrumentoController(IInstrumento instrumento) => _service = instrumento;
 
         [HttpPost]
-        public async Task<IActionResult> GuardarInstrumento(string lbx_marca, string lbx_descripcion)
+        public async Task<IActionResult> GuardarInstrumento(string tbx_marca, string lbx_descripcion)
         {
             InstrumentoDTO entidad = new()
             {
-                Marca = lbx_marca,
+                Marca = tbx_marca,
                 Descripcion = lbx_descripcion
             };
 
@@ -44,6 +44,11 @@ namespace front.Controllers
             if (!ModelState.IsValid)
             {   //TO DO
                 //ModelState.Keys
+                var errores = ModelState.Keys;
+                foreach (var key in errores)
+                {
+                    Console.WriteLine(key); 
+                }
                 return false;
             }
 
