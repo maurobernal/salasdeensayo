@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "_LayoutPure";
+    string error = ViewData["error"] as string;
+    string token = ViewData["tokenUser"] as string;
+    string email = ViewData["emailUser"] as string;
+}
+
+<div class="row mt-2 p-2 align-middle">
+
+
+    <div class="col-4">
+    </div>
+    <div class="col">
+        @using (Html.BeginForm("ChangePass", "Account", FormMethod.Post))
+        {
+            <input value="@token" id="Token" name="Token" type="hidden" />
+            <input value="@email" id="Email" name="Email" type="hidden" />
+
+            <div class="card align-middle">
+                <div class="card-header bg-dark text-center">
+                    <h1 class="text-light">Cambiar Contraseña</h1>
+                </div>
+                <div class="card-body bg-light align-content-center">
+
+                    <div class="row text-center p-2 m-2">
+                        <Label>Contraseña:</Label>
+                        <span class="ml-2">
+                            @Html.Kendo().TextBox().Name("password").HtmlAttributes(new {type="password", width="200px"})
+                            </span>
+
+                    </div>
+                    <div class="row text-center p-2 m-2">
+                        <Label>Repita Contraseña:</Label>
+                        <span class="ml-2">
+                            @Html.Kendo().TextBox().Name("password2").HtmlAttributes(new {type="password", width="200px"})
+                        </span>
+
+
+                    </div>
+                </div>
+                <div class="card-footer bg-black text-center">
+                    @Html.Kendo().Button().Name("Btn_Login").Content("Actualizar Contraseña")
+                    @if (error != null)
+                    {
+                        <span class="text-danger">
+                            @error
+                        </span>
+                    }
+
+                </div>
+            </div>
+        }
+        <div class="col-4">
+        </div>
+
+    </div>

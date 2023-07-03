@@ -11,6 +11,7 @@ public partial class SalaDeEnsayoAPI : ISalaDeEnsayosAPI
 
     public async Task<SalasDeEnsayoDTO> SalaDeEnsayoGetByIdAsync(int id)
     {
+
         var peticion = await _client.GetAsync($"SalaDeEnsayo/{id}");
         var res = await peticion.Content.ReadFromJsonAsync<SalasDeEnsayoDTO>();
         return res;

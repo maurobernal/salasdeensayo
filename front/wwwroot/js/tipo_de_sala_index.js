@@ -8,12 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-function listarSalas() {
+function listarTipoDeSala() {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        yield ((_a = $('#Grilla_Salas').data('kendoGrid')) === null || _a === void 0 ? void 0 : _a.dataSource.read());
+        yield ((_a = $('#Grilla_TipoDeSala').data('kendoGrid')) === null || _a === void 0 ? void 0 : _a.dataSource.read());
     });
 }
-function onError(e) {
+function onErrorTipo(e) {
     console.log('Error', e);
+}
+function parametrosGrillaTipoDeSala() {
+    return {
+        descripcion: $('#Grilla_TipoDeSala').data("kendoGid")
+    };
 }

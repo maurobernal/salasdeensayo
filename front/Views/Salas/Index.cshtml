@@ -49,11 +49,8 @@
                     c.Bound(p => p.TipoDeSalaId).Filterable(false)
                     .ClientTemplate(" <span class='text-primary'> #: (typeof(Tipo) == 'undefined' || Tipo ==null)?  '' : Tipo.Descripcion # </span>   ")
                     //.EditorTemplateName("EditorTipoDeSala")
-                    .EditorViewData("prueba")
-                    ;
+                    .EditorViewData("prueba");
                     c.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
-
-
                 })
 
                 .AutoBind(false)
