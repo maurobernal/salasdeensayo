@@ -8,13 +8,13 @@
             <div class="row p-2 ">
                 @(Html.Kendo().Button().Name("Btn_ListarSala")
                     .Icon("list").Content("Listar")
-                    .Events(e => e.Click("listarTipoDeSala"))
+                    .Events(e => e.Click("listarSala"))
                     )
             </div>
         </div>
         @(
             Html.Kendo().Grid<TiposDeSalaDTO>()
-            .Name("Grilla_TipoDeSala")
+            .Name("Grilla_Reservas")
             .Editable(e => e.Mode(GridEditMode.InLine))
             .DataSource(d =>
             {
@@ -25,8 +25,7 @@
                     m.Field(p => p.Id).Editable(false);
 
                 })
-                .Events(e => e.Error("onErrorTipo"))
-                .Read(r => r.Action("GetTipoDeSala", "TipoDeSala"))
+                .Read(r => r.Action("GetReservas", "Reserva"))
                 .Create(r => r.Action("CreateTipoDeSala", "TipoDeSala"))
                 .Destroy("RemoveTipoDeSal", "TipoDeSala")
                 .Update("UpdateTipoDeSala", "TipoDeSala");

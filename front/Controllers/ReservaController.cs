@@ -11,16 +11,11 @@ namespace front.Controllers
 
         public ReservaController(IReserva reserva) => _service = reserva;
 
-        public IActionResult CrearInstrumento() => View();
+        public IActionResult CrearReserva() => View();
 
         [HttpPost]
-        public async Task<IActionResult> ReservaInstrumento(ReservaDTO entidad)
+        public async Task<IActionResult> GuardarReserva(ReservaDTO entidad)
         {
-
-            //if (!validations(entidad))
-            //{
-            //    return View("Index");
-            //}
 
             var res = await _service.ReservaPostAsync(entidad);
             return View(res);
@@ -47,44 +42,12 @@ namespace front.Controllers
 
 
         [HttpDelete]
-        public async Task<IActionResult> RemoveReserva([DataSourceRequest] DataSourceRequest request, ReservaDTO entidad)
+        public async Task<IActionResult> RemoveReserva([DataSourceRequest] DataSourceRequest request, InstrumentoDTO entidad)
         {
             var res = await _service.ReservaDeleteById(entidad.Id);
             if (res == 0) throw new Exception("No eliminado");
             return Json(new[] { entidad }.ToDataSourceResult(request));
         }
 
-        //private bool missingData(string marca, string descripcion)
-        //{
-        //    if (descripcion == null || marca == null) return false;
-        //    else return true;
-        //}
-
-        //private bool validations(ReservaDTO entidad)
-        //{
-        //    if (!missingData(entidad.Descripcion, entidad.Marca))
-        //    {
-        //        ViewData["missingData"] = "Campo (*) obligatorio.";
-        //        return false;
-        //    }
-
-        //    if (!ModelState.IsValid)
-        //    { 
-        //        var keys = ModelState.Values;
-        //        int i = 0;
-        //        foreach (var key in keys)
-        //        {
-        //            if (key.Errors.Count != 0)
-        //            {
-        //                ViewData["marca"] = key.Errors[i].ErrorMessage.Contains("Marca") ? key.Errors[i].ErrorMessage: null;
-        //                ViewData["descripcion"] = key.Errors[i].ErrorMessage.Contains("Descripcion") ? key.Errors[i].ErrorMessage : null;
-        //                i++;
-        //            }
-        //        }
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
     }
 }
