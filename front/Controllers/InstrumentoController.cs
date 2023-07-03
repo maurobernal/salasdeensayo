@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SalasDeEnsayo.DTOs;
 
 namespace front.Controllers
@@ -10,6 +9,8 @@ namespace front.Controllers
         private readonly IInstrumento _service;
 
         public InstrumentoController(IInstrumento instrumento) => _service = instrumento;
+
+        public IActionResult CrearInstrumento() => View();
 
         [HttpPost]
         public async Task<IActionResult> GuardarInstrumento(string tbx_marca, string lbx_descripcion)
@@ -22,7 +23,6 @@ namespace front.Controllers
 
             validations(entidad);
 
-            
             var res = await _service.InstrumentoPostAsync(entidad);
             return View(res);
         }
