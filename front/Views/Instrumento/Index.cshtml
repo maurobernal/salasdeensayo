@@ -1,0 +1,55 @@
+﻿<script src="~/js/instrumentos_index.js"></script>
+
+@{
+    string marca = ViewData["marca"] as string;
+    string descripcion = ViewData["descripcion"] as string;
+}
+
+<div class="container">
+    <div class="row">
+        @if (marca != null)
+        {
+            <span class="text-danger">
+                @marca
+            </span>
+        }
+
+        @if (descripcion != null)
+        {
+            <span class="text-danger">
+                @descripcion
+            </span>
+        }
+    </div>
+	<div class="row">
+        @(
+            Html.Kendo().Grid<InstrumentoDTO>()
+                .Name("Grilla_Instrumentos")
+                .Editable(e => e.Mode(GridEditMode.InLine))
+                .DataSource(d =>
+                {
+                    d.WebApi()
+                    .Model(m =>
+                    {
+                        m.Id(p => p.Id);
+                        m.Field(p => p.Id).Editable(false);
+
+                    })
+                    .Events(events => events.Error("error_handler"))
+                    .Read(r => r.Action("GetInstrumentos", "Instrumento"))
+                    .Create(r => r.Action("GuardarInstrumento", "Instrumento"))
+                    .Destroy("RemoveInstrumento", "Instrumento")
+                    .Update("UpdateInstrumentos", "Instrumento");
+            })
+            .Columns(c =>
+            {
+                c.Bound(p => p.Id).Filterable(false);
+                c.Bound(p => p.Marca).Title("Marca del Instrumento").Filterable(true);
+                c.Bound(p => p.Descripcion).Title("Descripción del Instrumento").Filterable(true);
+                c.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+            })
+            .AutoBind(true)
+            .ToolBar(t => { t.Pdf(); t.Excel(); t.Create(); })
+            )
+	</div>
+</div>

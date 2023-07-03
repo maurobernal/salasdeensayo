@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    //string error = ViewData["missingData"] as string;
+    string error = ViewData["missingData"] as string;
 }
 @using (Html.BeginForm("GuardarInstrumento", "Instrumento", FormMethod.Post))
 {
@@ -27,12 +27,12 @@
                 .Content("Crear")
                 .Icon("plus")
                 )
-            @*@if (error != null)
+            @if (error != null)
             {
                 <span class="text-danger">
                     @error
                 </span>
-            }*@
+            }
         </div>
     </div>
 }

@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SalasDeEnsayo.DTOs;
+﻿using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Mvc;
 
 namespace front.Controllers
 {
@@ -13,18 +14,48 @@ namespace front.Controllers
         public IActionResult CrearInstrumento() => View();
 
         [HttpPost]
-        public async Task<IActionResult> GuardarInstrumento(string tbx_marca, string lbx_descripcion)
+        public async Task<IActionResult> GuardarInstrumento(InstrumentoDTO entidad)
         {
-            InstrumentoDTO entidad = new()
-            {
-                Marca = tbx_marca,
-                Descripcion = lbx_descripcion
-            };
 
-            validations(entidad);
+            var instrumentotemp = new InstrumentoDTO();
+            instrumentotemp.Descripcion = entidad.Descripcion;
+            instrumentotemp.Marca = entidad.Marca;
+
+            if (!validations(entidad))
+            {
+                return View("Index");
+            }
 
             var res = await _service.InstrumentoPostAsync(entidad);
             return View(res);
+        }
+
+        [HttpGet]
+        public IActionResult Index() => View();
+
+        [HttpGet]
+        public async Task<IActionResult> GetInstrumentos([DataSourceRequest] DataSourceRequest request)
+        {
+            return Json(
+                 _service.InstrumentoGetListAsync().Result
+                 .ToDataSourceResult(request));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateInstrumentos([DataSourceRequest] DataSourceRequest request, InstrumentoDTO entidad)
+        {
+            var res = await _service.InstrumentoUpdateById(entidad);
+            if (res == 0) throw new Exception("No actualizado");
+            return Json(new[] { entidad }.ToDataSourceResult(request));
+        }
+
+
+        [HttpDelete]
+        public async Task<IActionResult> RemoveInstrumento([DataSourceRequest] DataSourceRequest request, InstrumentoDTO entidad)
+        {
+            var res = await _service.InstrumentoDeleteById(entidad.Id);
+            if (res == 0) throw new Exception("No eliminado");
+            return Json(new[] { entidad }.ToDataSourceResult(request));
         }
 
         private bool missingData(string marca, string descripcion)
@@ -42,12 +73,17 @@ namespace front.Controllers
             }
 
             if (!ModelState.IsValid)
-            {   //TO DO
-                //ModelState.Keys
-                var errores = ModelState.Keys;
-                foreach (var key in errores)
+            { 
+                var keys = ModelState.Values;
+                int i = 0;
+                foreach (var key in keys)
                 {
-                    Console.WriteLine(key); 
+                    if (key.Errors.Count != 0)
+                    {
+                        ViewData["marca"] = key.Errors[i].ErrorMessage.Contains("Marca") ? key.Errors[i].ErrorMessage: null;
+                        ViewData["descripcion"] = key.Errors[i].ErrorMessage.Contains("Descripcion") ? key.Errors[i].ErrorMessage : null;
+                        i++;
+                    }
                 }
                 return false;
             }
