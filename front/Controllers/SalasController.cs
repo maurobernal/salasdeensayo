@@ -35,6 +35,8 @@ namespace front.Controllers
         [Authorize(Roles = "Supervisor")]
         public IActionResult Index() => View();
 
+        public async Task<IActionResult> GetList() => Json(await _service.SalaDeEnsayoGetListAsync());
+
         [HttpGet]
         public async Task<IActionResult> GetSalas([DataSourceRequest] DataSourceRequest request, int tipodesalaid)
         {

@@ -7,4 +7,10 @@ function onError(e: Event): any {
     console.log('Error', e);
 }
 
+function parametrosGrilla(): any {
+    return {
+        descripcion: $('#Grilla_Salas').data("kendoGid")
+    };
+}
+
 

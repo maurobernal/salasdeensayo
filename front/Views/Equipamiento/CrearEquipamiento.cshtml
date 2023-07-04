@@ -1,0 +1,65 @@
+﻿<div class="container">
+    @using (Html.BeginForm("GuardarEquipamiento", "Equipamiento", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-3">
+                <label>Sala de Ensayo:</label>
+            </div>
+            <div class="col-5">
+                @(Html.Kendo().DropDownList()
+                    .Name("lbx_salasdeensayo")
+                    .AutoBind(true).Filter(FilterType.Contains)
+                    .SelectedIndex(0)
+                    .OptionLabel("Seleccione")
+                    .DataSource(d => d.Read("GetList", "Salas"))
+                    .DataTextField("Descripcion")
+                    .DataValueField("Id")
+                    )
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <label>Instrumento:</label>
+            </div>
+            <div class="col-5">
+                @(Html.Kendo().DropDownList()
+                    .Name("lbx_tipodesala")
+                    .AutoBind(true).Filter(FilterType.Contains)
+                    .SelectedIndex(0)
+                    .OptionLabel("Seleccione")
+                    .DataSource(d => d.Read("GetList", "TipoDeSala"))
+                    .DataTextField("Descripcion")
+                    .DataValueField("Id")
+                    )
+            </div>
+        </div>
+        @*<div class="row">
+            <div class="col-5">
+                @(Html.Kendo().MultiSelect()
+                    .Name("ms_instrumento")
+                    .Placeholder("Seleccione instrumentos...")
+                    .DownArrow(true)
+                    .DataTextField("Descripcion")
+                    .DataValueField("Id")
+                    .Filter("contains")
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("GetList", "TipoDeSala");
+                        });
+                    })
+                    )
+
+            </div>
+        </div>*@
+        <div class="row text-center p-2">
+            <div class="col-5">
+                @(Html.Kendo().Button().Name("btn_submit")
+                    .Content("Crear")
+                    .Icon("plus")
+                    )
+            </div>
+        </div>
+    }
+</div>

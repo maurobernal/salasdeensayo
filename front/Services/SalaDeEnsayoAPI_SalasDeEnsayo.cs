@@ -38,4 +38,10 @@ public partial class SalaDeEnsayoAPI : ISalaDeEnsayosAPI
         var res = await peticion.Content.ReadFromJsonAsync<int>();
         return res;
     }
+    public async Task<List<SalasDeEnsayoDTO>> SalaDeEnsayoGetListAsync()
+    {
+        var peticion = await _client.GetAsync("SalaDeEnsayo");
+        var res = await peticion.Content.ReadFromJsonAsync<List<SalasDeEnsayoDTO>>();
+        return res;
+    }
 }

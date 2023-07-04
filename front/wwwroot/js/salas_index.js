@@ -17,3 +17,8 @@ function listarSalas() {
 function onError(e) {
     console.log('Error', e);
 }
+function parametrosGrilla() {
+    return {
+        descripcion: $('#Grilla_Salas').data("kendoGid")
+    };
+}
