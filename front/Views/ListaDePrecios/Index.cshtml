@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<script src="~/js/lista_de_precio_index.js"></script>
+
+<div class="container">
+    <h1>Lista de precios disponibles</h1>
+    <div class="card">
+        <div class="card-header bg-light">
+            <div class="row p-2 ">
+                    @Html.Partial("_TiposDeSala")
+            </div>
+            <div class="row p-2 ">
+                @(Html.Kendo().Button().Name("Btn_ListarListaPrecio")
+                    .Icon("list").Content("Listar")
+                    .Events(e => e.Click("listarListaPrecio"))
+                    )
+            </div>
+        </div>
+        <div class="card-body">
+        @(
+            Html.Kendo().Grid<ListaDePrecioDTO>()
+            .Name("Grilla_ListaDePrecio")
+            .DataSource(d =>
+            {
+                d.WebApi()
+                    .Read(r => r.Action("GetListaDePrecios", "ListaDePrecios").Data("parametrosGrillaListaPrecio"));
+            })
+            .Columns(c =>
+            {
+                c.Bound(p => p.Id).Filterable(false);
+                    c.Bound(p => p.dia).Filterable(false);
+                    c.Bound(p => p.precioxhora).Filterable(false);
+            })
+            .AutoBind(false)
+            .ToolBar(t => { t.Pdf(); t.Excel(); })
+            )
+        </div>
+    </div>
+</div>

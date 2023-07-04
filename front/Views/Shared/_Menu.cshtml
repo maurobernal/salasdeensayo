@@ -8,5 +8,8 @@ Html.Kendo().Menu()
                     items.Add().Text("Crear Salas").Action("CrearSala", "Salas", new { area = "" });
                     items.Add().Text("Crear Equipamientos").Action("CrearEquipamiento", "Equipamiento", new { area = "" });
 
+                    items.Add().Text("Lista De Precio").Action("Index", "ListaDePrecios", new { area = "" });
+                    items.Add().Text("Crear Lista De Precio").Action("Crear", "ListaDePrecios", new { area = "" });
+                    items.Add().Text("Tipo De Salas").Action("Index", "TipoDeSala", new { area = "" });
                 })
                 )
