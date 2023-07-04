@@ -6,35 +6,22 @@
 }
 
 <div class="container">
-    <div class="row">
-        @if (marca != null)
-        {
-            <span class="text-danger">
-                @marca
-            </span>
-        }
-
-        @if (descripcion != null)
-        {
-            <span class="text-danger">
-                @descripcion
-            </span>
-        }
-    </div>
 	<div class="row">
         @(
             Html.Kendo().Grid<InstrumentoDTO>()
                 .Name("Grilla_Instrumentos")
                 .Editable(e => e.Mode(GridEditMode.InLine))
+                
                 .DataSource(d =>
                 {
-                    d.WebApi()
+                    d.Ajax()
                     .Model(m =>
                     {
                         m.Id(p => p.Id);
                         m.Field(p => p.Id).Editable(false);
 
                     })
+                    .ServerOperation(false)
                     .Events(events => events.Error("error_handler"))
                     .Read(r => r.Action("GetInstrumentos", "Instrumento"))
                     .Create(r => r.Action("GuardarInstrumento", "Instrumento"))

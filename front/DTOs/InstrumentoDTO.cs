@@ -6,8 +6,7 @@ namespace front.DTOs
     {
         [Required]
         [MaxLength(50)]
-        [MinLength(8)]
+        [MinLength(3, ErrorMessage ="El campo 'Marca' no cumple la longitud mínima")]
         public string Marca { get; set; }
-
     }
 }
