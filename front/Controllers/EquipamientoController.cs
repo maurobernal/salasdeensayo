@@ -39,8 +39,7 @@ namespace front.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEquipamiento([DataSourceRequest] DataSourceRequest request, int equipamientoId, int saladeensayoId)
         {
-            return Json(
-                _service.EquipamientoGetByIdAsync(equipamientoId,saladeensayoId).Result.ToDataSourceResult(request));
+            
         }
 
 
