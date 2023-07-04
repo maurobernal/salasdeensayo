@@ -8,18 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-function listarSalas() {
+function listarListaPrecio() {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        yield ((_a = $('#Grilla_Salas').data('kendoGrid')) === null || _a === void 0 ? void 0 : _a.dataSource.read());
+        yield ((_a = $('#Grilla_ListaDePrecio').data('kendoGrid')) === null || _a === void 0 ? void 0 : _a.dataSource.read());
     });
 }
-function onError(e) {
-    console.log('Error', e);
-}
-function parametrosGrilla() {
+function parametrosGrillaListaPrecio() {
     var _a;
     return {
-        tipodesalaid: (_a = $('#lbx_tiposdesala').data("kendoDropDownList")) === null || _a === void 0 ? void 0 : _a.value()
+        idSala: (_a = $('#lbx_tiposdesala').data('kendoDropDownList')) === null || _a === void 0 ? void 0 : _a.value()
     };
 }

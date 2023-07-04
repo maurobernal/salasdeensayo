@@ -8,3 +8,8 @@ function onError(e: Event): any {
 }
 
 
+function parametrosGrilla(): any {
+    return {
+        tipodesalaid: $('#lbx_tiposdesala').data("kendoDropDownList")?.value()
+    };
+}

@@ -17,8 +17,3 @@ function listarTipoDeSala() {
 function onErrorTipo(e) {
     console.log('Error', e);
 }
-function parametrosGrillaTipoDeSala() {
-    return {
-        descripcion: $('#Grilla_TipoDeSala').data("kendoGid")
-    };
-}
