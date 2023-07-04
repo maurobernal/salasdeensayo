@@ -16,7 +16,6 @@ namespace front.Controllers
         [HttpPost]
         public async Task<IActionResult> GuardarReserva(ReservaDTO entidad)
         {
-
             var res = await _service.ReservaPostAsync(entidad);
             return View(res);
         }
