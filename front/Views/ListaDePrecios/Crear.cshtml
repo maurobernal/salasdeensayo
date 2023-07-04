@@ -1,0 +1,51 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="row mt-2 p-2 align-middle">
+
+
+        <div class="col-4">
+        </div>
+        <div class="col">
+        @using (Html.BeginForm("CrearLista", "ListaDePrecios", FormMethod.Post))
+            {
+                <div class="card align-middle">
+                    <div class="card-header bg-dark text-center">
+                        <h1 class="text-light">Lista De Precio</h1>
+                    </div>
+                    <div class="card-body bg-light align-content-center">
+
+                        <div class="row text-center p-2 m-2">
+                        @(Html.Kendo().DropDownList()
+                            .Name("idSala")
+                            .AutoBind(true).Filter(FilterType.Contains)
+                            .SelectedIndex(0)
+                            .OptionLabel("seleccione sala")
+                            .DataSource(d => d.Read("GetList", "TipoDeSala")
+                            )
+                            .DataTextField("Descripcion")
+                            .DataValueField("Id"))
+                        </div>
+                        <div class="row text-center p-2 m-2">
+                        <Label class="p-2 m-2">Precio por hora:</Label>
+                            <span class="ml-2">
+                                @Html.Kendo().TextBox().Name("precioxhora")
+                            </span>
+                        </div>
+                        <div class="row text-center p-2 m-2">
+                        <Label class="p-2 m-2">Dia:</Label>
+                            @Html.Kendo().TextBox().Name("dia")
+                        </div>
+                    </div>
+                    <div class="card-footer bg-black text-center">
+                        @Html.Kendo().Button().Name("Btn_Create_Lista_Precio").Content("Crear Lista de precio")
+
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-4">
+        </div>
+</div>

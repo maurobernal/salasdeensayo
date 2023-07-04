@@ -28,7 +28,7 @@
                             .Events(e => e.Error("onErrorTipo"))
                             .Read(r => r.Action("GetTipoDeSala", "TipoDeSala"))
                             .Create(r =>r.Action("CreateTipoDeSala", "TipoDeSala"))
-                            .Destroy("RemoveTipoDeSal", "TipoDeSala")
+                            .Destroy("RemoveTipoDeSala", "TipoDeSala")
                             .Update("UpdateTipoDeSala", "TipoDeSala");
                          })
                         .Columns(c =>
