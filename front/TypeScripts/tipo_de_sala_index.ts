@@ -8,9 +8,3 @@ async function listarTipoDeSala(): Promise<void> {
 function onErrorTipo(e: Event): any {
     console.log('Error', e);
 }
-
-function parametrosGrillaTipoDeSala(): any {
-    return {
-        descripcion: $('#Grilla_TipoDeSala').data("kendoGid")
-    };
-}
