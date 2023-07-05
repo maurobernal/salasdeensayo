@@ -45,6 +45,24 @@ namespace front.Controllers
                   _service.ListaDePrecioGetListAsync(idSala).Result
                   .ToDataSourceResult(request));
         }
+
+        [HttpDelete]
+        [Authorize(Roles = "Supervisor")]
+        public async Task<IActionResult> RemoveListaDePrecios([DataSourceRequest] DataSourceRequest request, ListaDePrecioDTO entidad)
+        {
+            var res = await _service.ListaDePrecioDeletByIdAsync(entidad);
+            if (res == 0) throw new Exception("No eliminado");
+            return Json(new[] { entidad }.ToDataSourceResult(request));
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "Supervisor")]
+        public async Task<IActionResult> UpdateListaDePrecios([DataSourceRequest] DataSourceRequest request, ListaDePrecioDTO entidad)
+        {
+            var res = await _service.ListaDePrecioUpdateByIdAsync(entidad);
+            if (res == 0) throw new Exception("No actualizado");
+            return Json(new[] { entidad }.ToDataSourceResult(request));
+        }
     }
 
 

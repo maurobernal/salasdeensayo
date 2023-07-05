@@ -16,4 +16,17 @@ public partial class SalaDeEnsayoAPI :ISalaDeEnsayosAPI
         return res;
     }
 
+    public async Task<int> ListaDePrecioDeletByIdAsync(ListaDePrecioDTO entity)
+    {
+        var peticion = await _client.DeleteAsync($"TiposDeSala/{entity.tiposala.Id}/listadeprecio/{entity.Id}");
+        var res = await peticion.Content.ReadFromJsonAsync<int>();
+        return res;
+    }
+
+    public async Task<int> ListaDePrecioUpdateByIdAsync(ListaDePrecioDTO entity)
+    {
+        var peticion = await _client.PutAsJsonAsync($"TiposDeSala/{entity.tiposala.Id}/listadeprecio/{entity.Id}", entity);
+        var res = await peticion.Content.ReadFromJsonAsync<int>();
+        return res;
+    }
 }
