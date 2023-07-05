@@ -23,16 +23,26 @@
         @(
             Html.Kendo().Grid<ListaDePrecioDTO>()
             .Name("Grilla_ListaDePrecio")
+                .Editable(e => e.Mode(GridEditMode.InLine))
             .DataSource(d =>
             {
                 d.WebApi()
-                    .Read(r => r.Action("GetListaDePrecios", "ListaDePrecios").Data("parametrosGrillaListaPrecio"));
+                    .Model(m =>
+                    {
+                        m.Id(p => p.Id);
+                        m.Field(p => p.Id).Editable(false);
+
+                    })
+                    .Read(r => r.Action("GetListaDePrecios", "ListaDePrecios").Data("parametrosGrillaListaPrecio"))
+                    .Destroy(d => d.Action("RemoveListaDePrecios", "ListaDePrecios"))
+                    .Update("UpdateListaDePrecios", "ListaDePrecios");
             })
             .Columns(c =>
             {
                 c.Bound(p => p.Id).Filterable(false);
                     c.Bound(p => p.dia).Filterable(false);
                     c.Bound(p => p.precioxhora).Filterable(false);
+                    c.Command(command => { command.Edit();command.Destroy(); }).Width(200);
             })
             .AutoBind(false)
             .ToolBar(t => { t.Pdf(); t.Excel(); })
