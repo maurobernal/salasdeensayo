@@ -1,0 +1,80 @@
+﻿<script src="~/js/salas_index.js"></script>
+
+<div class="container">
+    <h1>Equipamientos activos</h1>
+
+    <div class="card">
+        <div class="card-header bg-light">
+
+            <div class="row">
+                @Html.Partial("_Equipamientos")
+            </div>
+            <div class="row p-2 ">
+                @(Html.Kendo().Button().Name("Btn_Listar")
+                    .Icon("list").Content("Listar")
+                    .Events(e => e.Click("listarEquipamientos"))
+                    )
+
+            </div>
+        </div>
+
+        <div class="card-body">
+            @(
+                Html.Kendo().Grid<EquipamientoDTO>()
+                .Name("Grilla_Equipamiento")
+                .Editable(e => e.Mode(GridEditMode.InLine))
+
+                .DataSource(d =>
+                {
+                    d.WebApi()
+                    .Batch(false)
+                    .Events(e => e.Error("onError"))
+                    .Model(m =>
+                    {
+                        m.Id(p => p.Id);
+                        m.Field(p => p.Id).Editable(false);
+
+                    })
+                    .Group(g => g.Add(p => p.Sala.Descripcion))
+                    .Read(r => r.Action("GetEquipamiento", "Equipamiento").Data("parametrosGrilla"))
+                    .Create(r => r.Action("CrearEquipamiento", "Equipamiento").Data("parametrosGrilla"))
+                    .Destroy(d => d.Action("RemoveSalas", "Salas"));
+
+                })
+                .Columns(c =>
+                {
+                    c.Bound(p => p.SalaDeEnsayoId).Title("Sala de ensayo Id").Filterable(true);
+                    c.Bound(p => p.Id).Filterable(false);
+                    c.Bound(p => p.TipoDeSalaId).Filterable(false)
+                    .ClientTemplate(" <span class='text-primary'> #: (typeof(Tipo) == 'undefined' || Tipo ==null)?  '' : Tipo.Descripcion # </span>   ")
+                    //.EditorTemplateName("EditorTipoDeSala")
+                    .EditorViewData("prueba");
+                    c.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+                })
+
+                .AutoBind(false)
+                .Filterable()
+                .Pageable()
+                .Groupable()
+                .Scrollable()
+                .Sortable()
+                .ToolBar(t => { t.Pdf(); t.Excel(); t.Create(); })
+                )
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+
+
+</div>

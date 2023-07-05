@@ -1,8 +1,7 @@
 ﻿using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
+using Kendo.Mvc.Extensions;
 
 namespace front.Controllers
 {
@@ -36,12 +35,15 @@ namespace front.Controllers
             return Json(await _service.EquipamientoGetListAsync());
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetEquipamiento([DataSourceRequest] DataSourceRequest request, int equipamientoId, int saladeensayoId)
-        {
-            
-        }
 
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteEquipamiento([DataSourceRequest] DataSourceRequest request, EquipamientoDTO entity)
+        {
+            var res = await _service.EquipamientoDeletById(entity.Id, entity.SalaDeEnsayoId);
+            if (res == 0) throw new Exception("No eliminado");
+            return Json(new[] { entity }.ToDataSourceResult(request));
+        }
 
 
     }

@@ -4,15 +4,6 @@ namespace front.Services;
 
 public partial class SalaDeEnsayoAPI: ISalaDeEnsayosAPI
 {
-    public async Task<EquipamientoDTO> EquipamientoGetByIdAsync(SalasDeEnsayoDTO entity,int id)
-    {
-        
-
-    }
-    public async Task<List<EquipamientoDTO>> EquipamientoGetListAsync(SalasDeEnsayoDTO entity)
-    {
-        
-    }
 
     public async Task<int> EquipamientoPostAsync(EquipamientoDTO entity)
     {
