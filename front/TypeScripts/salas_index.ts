@@ -14,7 +14,7 @@ function parametrosGrilla(): any {
 }
 
 
-function parametrosGrilla(): any {
+function parametrosGrillas(): any {
     return {
         tipodesalaid: $('#lbx_tiposdesala').data("kendoDropDownList")?.value()
     };

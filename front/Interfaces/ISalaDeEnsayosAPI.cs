@@ -22,8 +22,8 @@ public interface ISalaDeEnsayosAPI
 
 
     public Task<int> EquipamientoPostAsync(EquipamientoDTO entity);
-    public Task<int> EquipamientoDeletById(int id, int SalaDeEnsayoId);
-    public Task<EquipamientoDTO> EquipamientoGetByIdAsync(int id, int SalaDeEnsayoId);
-    public Task<List<EquipamientoDTO>> EquipamientoGetListAsync();
+    public Task<int> EquipamientoDeletById(EquipamientoDTO entity);
+    //public Task<EquipamientoDTO> EquipamientoGetByIdAsync(int id, int SalaDeEnsayoId);
+    public Task<List<EquipamientoDTO>> EquipamientoGetListAsync(int saladeensayoid);
 
 }

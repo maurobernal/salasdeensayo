@@ -1,21 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace front.DTOs
+namespace front.DTOs;
+
+public class EquipamientoDTO
 {
-    public class EquipamientoDTO
-    {
-        [Key]
-        public int Id { get; set; }
+    [Key]
+    public int Id { get; set; }
 
-        [Required]
-        public int SalaDeEnsayoId { get; set; }
+    [Required]
+    public int SalaDeEnsayoId { get; set; }
 
-        public SalasDeEnsayoDTO Sala { get; set; }
+    public SalasDeEnsayoDTO Sala { get; set; }
 
-        //Editar despues con instrumentos... 
-
-        [Required]
-        public int TipoDeSalaId { get; set; }
-        public TiposDeSalaDTO Tipos { get; set; }
-    }
+    [Required]
+    public int InstrumentoId { get; set; }
+    public InstrumentoDTO Instrumento { get; set; }
 }

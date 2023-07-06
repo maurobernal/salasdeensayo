@@ -41,6 +41,9 @@ namespace front.Controllers
                  .ToDataSourceResult(request));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetList() => Json(await _service.InstrumentoGetListAsync());
+
         public async Task<IActionResult> UpdateInstrumentos([DataSourceRequest] DataSourceRequest request, InstrumentoDTO entidad)
         {
             if (ModelState.IsValid)

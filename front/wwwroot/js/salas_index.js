@@ -18,6 +18,11 @@ function onError(e) {
     console.log('Error', e);
 }
 function parametrosGrilla() {
+    return {
+        descripcion: $('#Grilla_Salas').data("kendoGid")
+    };
+}
+function parametrosGrillas() {
     var _a;
     return {
         tipodesalaid: (_a = $('#lbx_tiposdesala').data("kendoDropDownList")) === null || _a === void 0 ? void 0 : _a.value()
