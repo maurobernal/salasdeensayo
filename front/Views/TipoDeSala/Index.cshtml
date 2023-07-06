@@ -37,7 +37,7 @@
                             c.Bound(p => p.Descripcion).Title("Descripción de Sala").Filterable(true);
                             c.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
                         })
-                        .AutoBind(true)    
+                        .AutoBind(false)    
                         .ToolBar(t => { t.Pdf(); t.Excel(); t.Create(); })
         )
     </div>

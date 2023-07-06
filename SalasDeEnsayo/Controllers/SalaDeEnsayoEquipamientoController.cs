@@ -24,7 +24,7 @@ namespace SalasDeEnsayo.Controllers
             saladeensayoequipamiento validator = _context.saladeensayoequipamiento
                 .Include(i => i.instrumento).Include(i => i.salasdeensayo)
                 .Where(w => w.instrumentoid == dto.instrumentoid).Select(s => s).FirstOrDefault();
-            if (validator.instrumento != null) return NotFound($"El instrumento con ID: {dto.instrumentoid} ya se encuentra asignado a una sala");
+            if (validator != null) return NotFound($"El instrumento con ID: {dto.instrumentoid} ya se encuentra asignado a una sala");
 
             var salaDeEnsayo = _context.saladeensayo.Select(s => s).Where(w => w.id == saladeensayoid).FirstOrDefault();
             if (salaDeEnsayo == null) return NotFound($"El registro sala de ensayo con ID: {saladeensayoid} no se encuentra");
