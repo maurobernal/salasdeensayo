@@ -17,7 +17,8 @@ builder.Services.AddSingleton<IInstrumento, Instrumento>();
 builder.Services.AddSingleton<IReserva, Reserva>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpClient("ApiSalaDeEnsayo", h => h.BaseAddress =
-new Uri("https://arg.globalassistgroup.com/saladeensayoapi/api/"));
+//new Uri("https://arg.globalassistgroup.com/saladeensayoapi/api/"));
+new Uri("https://localhost:7273/api/"));
 
 string conn = "Server=172.0.0.14;Database=SEMB;user=TestUser;Password=Test2023!;Encrypt=true;TrustServerCertificate=True";
 

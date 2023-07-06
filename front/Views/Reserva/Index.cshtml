@@ -1,88 +1,56 @@
-﻿<script src="~/js/tipo_de_sala_index.js"></script>
-
+﻿<script src="~/js/reservas_index.js"></script>
 
 <div class="container">
-    <h1>Tipo de salas disponibles</h1>
-    <div class="card">
-        <div class="card-header bg-light">
-            <div class="row p-2 ">
-                @(Html.Kendo().Button().Name("Btn_ListarSala")
-                    .Icon("list").Content("Listar")
-                    .Events(e => e.Click("listarSala"))
-                    )
-            </div>
+    <div class="card p-5">
+
+        <div class="card-header">
+            @Html.Partial("_TiposDeSala")
         </div>
-        @(
-            Html.Kendo().Grid<TiposDeSalaDTO>()
-            .Name("Grilla_Reservas")
-            .Editable(e => e.Mode(GridEditMode.InLine))
-            .DataSource(d =>
+
+        <div class="card-body">
+        @(Html.Kendo().Form<ReservaDTO>()
+            .Name("formReserva")
+            .HtmlAttributes(new { action = @Url.Action("GuardarReserva", "Reserva"), method = "POST" })
+            .ButtonsTemplate("<button class='k-button k-primary k-form-submit' type='submit'>Generar Reserva</button>")
+            .Validatable(v =>
             {
-                d.WebApi()
-                .Model(m =>
+                v.ValidationSummary(false);
+                v.ErrorTemplate("<span class='k-form-error'>#:message#</span>");
+            })
+            .Items(items =>
+            {
+                items.AddGroup()
+                .Items(i =>
                 {
-                    m.Id(p => p.Id);
-                    m.Field(p => p.Id).Editable(false);
 
-                })
-                .Read(r => r.Action("GetReservas", "Reserva"))
-                .Create(r => r.Action("CreateTipoDeSala", "TipoDeSala"))
-                .Destroy("RemoveTipoDeSal", "TipoDeSala")
-                .Update("UpdateTipoDeSala", "TipoDeSala");
+                    i.Add()
+                .Field(f => f.SalaDeEnsayoId)
+                .Editor(e => e.DropDownList()
+                .AutoBind(false).Filter(FilterType.Contains)
+                .SelectedIndex(0)
+                .OptionLabel("Salas")
+                    .DataSource(d => d.Read(r => r.Action("GetSalasReserva", "Salas").Data("parametros"))
+                    )
+                .DataTextField("Descripcion")
+                .DataValueField("Id")
+                )
+                .Label(l => l.Text("Seleccione la Sala:"));
+
+                    i.Add()
+                .Field(f => f.FechaDesde).Name("fechadesde")
+                    .Editor(e => e.DateTimePicker().Format("dd/MM/yyyy HH:mm").Min(DateTime.Now.AddDays(1)).DateInput())
+                .Label(l => l.Text("Fecha Desde:").Optional(false));
+
+                    i.Add()
+                .Field(f => f.FechaHasta).Name("fechahasta")
+                    .Editor(e => e.DateTimePicker().Format("dd/MM/yyyy HH:mm").Min(DateTime.Now.AddDays(1)).DateInput())
+                .Label(l => l.Text("Fecha Hasta:").Optional(false));
+
+                });
             })
-            .Columns(c =>
-            {
-                c.Bound(p => p.Id).Filterable(false);
-                c.Bound(p => p.Descripcion).Title("Descripción de Sala").Filterable(true);
-                c.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
-            })
-            .AutoBind(true)
-            .ToolBar(t => { t.Pdf(); t.Excel(); t.Create(); })
             )
-    </div>
-</div>
+        </div>
 
-<div class="demo-section">
-    <div id="validation-success"></div>
-    @using (Html.BeginForm("Register", "Account", FormMethod.Post))
-        {
-        .Validatable(v =>
-        {
-            v.ValidateOnBlur(true);
-            v.ValidationSummary(vs => vs.Enable(false));
-        })
-        .Items(items =>
-        {
-            items.AddGroup()
-            .Label("Registration Form")
-            .Items(i =>
-            {
-                i.Add()
-            .Field(f => f.Equal).
-            .Label(l => l.Text("First Name:"));
-                i.Add()
-            .Field(f => f.LastName)
-            .Label(l => l.Text("Last Name:"));
-                i.Add()
-            .Field(f => f.UserName)
-            .Label(l => l.Text("Username:"));
-                i.Add()
-            .Field(f => f.Password)
-            .Label(l => l.Text("Password:"))
-            .Hint("Hint: enter alphanumeric characters only.")
-            .EditorTemplateHandler("setPasswordEditor");
-                i.Add()
-            .Field(f => f.Email)
-            .Label(l => l.Text("Email:"));
-                i.Add()
-            .Field(f => f.DateOfBirth)
-            .Label(l => l.Text("Date of Birth:").Optional(true));
-                i.Add()
-            .Field(f => f.Agree)
-            .Label(l => l.Text("Agree to Terms:"));
-            });
-        })
-        .Events(ev => ev.ValidateField("onFormValidateField").Submit("onFormSubmit").Clear("onFormClear"))
-        )
-    }
+    </div>
+
 </div>

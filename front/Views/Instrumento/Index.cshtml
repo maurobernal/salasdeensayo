@@ -6,6 +6,8 @@
 }
 
 <div class="container">
+    <div class="col-4">
+    </div>
 	<div class="row">
         @(
             Html.Kendo().Grid<InstrumentoDTO>()
@@ -39,4 +41,6 @@
             .ToolBar(t => { t.Pdf(); t.Excel(); t.Create(); })
             )
 	</div>
+    <div class="col-4">
+    </div>
 </div>

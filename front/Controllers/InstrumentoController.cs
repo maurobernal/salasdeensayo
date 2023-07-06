@@ -25,7 +25,6 @@ namespace front.Controllers
             }
             else
             {
-                // Return model validation errors to the Kendo grid
                 var errors = ModelState.Values.SelectMany(v => v.Errors)
                     .Select(e => e.ErrorMessage).ToList();
 

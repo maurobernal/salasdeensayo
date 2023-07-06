@@ -43,6 +43,12 @@ namespace front.Controllers
                 .ToDataSourceResult(request));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetSalasReserva([DataSourceRequest] DataSourceRequest request, int tipodesalaid)
+        {
+            return Json(_service.SalaDeEnsayoGetListAsync(tipodesalaid).Result);
+        }
+
         [HttpDelete]
         public async Task<IActionResult> RemoveSalas([DataSourceRequest] DataSourceRequest request, SalasDeEnsayoDTO entidad)
         {
