@@ -1,0 +1,66 @@
+﻿<script src="~/js/equipamiento_index.js"></script>
+
+<div class="container">
+    <h1>Equipamientos activos</h1>
+
+    <div class="card">
+        <div class="card-header bg-light">
+
+            <div class="row">
+                @(Html.Kendo().DropDownList()
+                    .Name("lbx_salasdeensayo")
+                    .AutoBind(true).Filter(FilterType.Contains)
+                    .SelectedIndex(0)
+                    .OptionLabel("Seleccione")
+                    .DataSource(d => d.Read("GetList", "Salas"))
+                    .DataTextField("Descripcion")
+                    .DataValueField("Id")
+                    )
+            </div>
+            <div class="row p-2 ">
+                @(Html.Kendo().Button().Name("Btn_Listar")
+                    .Icon("list").Content("Listar")
+                    .Events(e => e.Click("listarEquipamientos"))
+                    )
+
+            </div>
+        </div>
+
+        <div class="card-body">
+            @(
+                Html.Kendo().Grid<EquipamientoDTO>()
+                    .Name("Grilla_Equipamiento")
+                    .Editable(e => e.Mode(GridEditMode.InLine))
+
+                    .DataSource(d =>
+                    {
+                        d.WebApi()
+                        .Batch(false)
+                        .Events(e => e.Error("onErrorEquipamiento"))
+                        .Model(m =>
+                        {
+                            m.Id(p => p.Id);
+                            m.Field(p => p.Id).Editable(false);
+
+                        })
+                        .Read(r => r.Action("GetEquipamientos", "Equipamiento").Data("parametrosGrillaEquipamiento"))
+                        .Destroy(d => d.Action("RemoveEquipamiento", "Equipamiento"));
+
+                    })
+                    .Columns(c =>
+                    {
+                        c.Bound(p => p.Id).Filterable(false);
+                        c.Bound(p => p.Instrumento.Descripcion).Filterable(false);
+                        c.Bound(p => p.Instrumento.Marca).Filterable(false);
+                        c.Command(command => command.Destroy()).Width(200);
+                })
+
+                .AutoBind(false)
+                .Filterable()
+                .Pageable()
+                .Scrollable()
+                .Sortable()
+                )
+        </div>
+    </div>
+</div>

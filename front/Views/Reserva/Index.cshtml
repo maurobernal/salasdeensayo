@@ -42,11 +42,11 @@
     </div>
 </div>
 
-<div class="demo-section">
+@*<div class="demo-section">
     <div id="validation-success"></div>
     @using (Html.BeginForm("Register", "Account", FormMethod.Post))
-        {
-        .Validatable(v =>
+    {
+        Validatable(v =>
         {
             v.ValidateOnBlur(true);
             v.ValidationSummary(vs => vs.Enable(false));
@@ -54,35 +54,35 @@
         .Items(items =>
         {
             items.AddGroup()
-            .Label("Registration Form")
-            .Items(i =>
-            {
-                i.Add()
-            .Field(f => f.Equal).
-            .Label(l => l.Text("First Name:"));
-                i.Add()
-            .Field(f => f.LastName)
-            .Label(l => l.Text("Last Name:"));
-                i.Add()
-            .Field(f => f.UserName)
-            .Label(l => l.Text("Username:"));
-                i.Add()
-            .Field(f => f.Password)
-            .Label(l => l.Text("Password:"))
-            .Hint("Hint: enter alphanumeric characters only.")
-            .EditorTemplateHandler("setPasswordEditor");
-                i.Add()
-            .Field(f => f.Email)
-            .Label(l => l.Text("Email:"));
-                i.Add()
-            .Field(f => f.DateOfBirth)
-            .Label(l => l.Text("Date of Birth:").Optional(true));
-                i.Add()
-            .Field(f => f.Agree)
-            .Label(l => l.Text("Agree to Terms:"));
-            });
+        .Label("Registration Form")
+        .Items(i =>
+        {
+    i.Add()
+        .Field(f => f.Equal)
+        .Label(l => l.Text("First Name:"));
+    i.Add()
+        .Field(f => f.LastName)
+        .Label(l => l.Text("Last Name:"));
+    i.Add()
+        .Field(f => f.UserName)
+        .Label(l => l.Text("Username:"));
+    i.Add()
+        .Field(f => f.Password)
+        .Label(l => l.Text("Password:"))
+        .Hint("Hint: enter alphanumeric characters only.")
+        .EditorTemplateHandler("setPasswordEditor");
+    i.Add()
+        .Field(f => f.Email)
+        .Label(l => l.Text("Email:"));
+    i.Add()
+        .Field(f => f.DateOfBirth)
+        .Label(l => l.Text("Date of Birth:").Optional(true));
+    i.Add()
+        .Field(f => f.Agree)
+        .Label(l => l.Text("Agree to Terms:"));
+                });
         })
-        .Events(ev => ev.ValidateField("onFormValidateField").Submit("onFormSubmit").Clear("onFormClear"))
-        )
+        .Events(ev => ev.ValidateField("onFormValidateField").Submit("onFormSubmit").Clear("onFormClear")
+        );
     }
-</div>
+</div>*@

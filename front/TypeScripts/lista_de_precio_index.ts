@@ -3,6 +3,6 @@
 }
 function parametrosGrillaListaPrecio(): any {
     return {
-        idSala: $('#lbx_tiposdesala').data('kendoDropDownList')?.value()
+        idsala: $('#lbx_tiposdesala').data('kendoDropDownList')?.value()
     };
 }
