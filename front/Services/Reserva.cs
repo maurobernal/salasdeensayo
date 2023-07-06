@@ -15,10 +15,10 @@ namespace front.Services
             return res;
         } 
 
-        public async Task<List<ReservaDTO>> ReservaGetListAsync()
+        public async Task<List<ReservaGetDTO>> ReservaGetListAsync()
         {
             var peticion = await _client.GetAsync("Reserva");
-            var res = await peticion.Content.ReadFromJsonAsync<List<ReservaDTO>>();
+            var res = await peticion.Content.ReadFromJsonAsync<List<ReservaGetDTO>>();
             return res;
         }
 

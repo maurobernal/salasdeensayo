@@ -1,0 +1,46 @@
+﻿<script src="~/js/instrumentos_index.js"></script>
+
+@{
+	string marca = ViewData["marca"] as string;
+	string descripcion = ViewData["descripcion"] as string;
+}
+
+<div class="container">
+	<div class="col-4">
+	</div>
+	<div class="row">
+		@(
+			Html.Kendo().Grid<ReservaGetDTO>()
+			.Name("Grilla_Reservas")
+			.Editable(e => e.Mode(GridEditMode.InLine))
+
+			.DataSource(d =>
+			{
+				d.WebApi()
+				.Model(m =>
+				{
+					m.Id(p => p.Id);
+					m.Field(p => p.Id).Editable(false);
+
+				})
+				.ServerOperation(false)
+				.Events(events => events.Error("error_handler"))
+				.Read(r => r.Action("GetReservas", "Reserva"))
+				.Update("UpdateReserva", "Reserva")
+				.Destroy("RemoveReserva", "Reserva");
+			})
+			.Columns(c =>
+			{
+				c.Bound(p => p.Id).Filterable(false);
+				c.Bound(p => p.FechaInicio).HtmlAttributes(new { type = "date" }).Title("Fecha Inicio").Filterable(true).Format("{0:MM/dd/yyyy HH:mm}");
+				c.Bound(p => p.FechaFin).Title("Fecha Fin").Filterable(true).Format("{0:MM/dd/yyyy HH:mm}");
+				c.Bound(p => p.fechaDeConfirmacion).Title("Fecha Confirmacion").Filterable(true).Format("{0:MM/dd/yyyy HH:mm}");
+				c.Command(command => { command.Edit(); command.Destroy(); }).Width(240);
+			})
+			.AutoBind(true)
+			.ToolBar(t => { t.Pdf(); t.Excel(); })
+			)
+	</div>
+	<div class="col-4">
+	</div>
+</div>

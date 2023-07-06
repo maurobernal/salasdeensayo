@@ -1,14 +1,18 @@
 ﻿<script src="~/js/reservas_index.js"></script>
+@{
+    string exito = ViewData["exito"] as string;
+}
 
 <div class="container">
     <div class="card p-5">
 
-        <div class="card-header">
-            @Html.Partial("_TiposDeSala")
-        </div>
+        @if (exito != null)
+        {
+            <script>alert("Reserva Generada Exitosamente!")</script>
+        }
 
         <div class="card-body">
-        @(Html.Kendo().Form<ReservaDTO>()
+            @(Html.Kendo().Form<ReservaTipoDTO>()
             .Name("formReserva")
             .HtmlAttributes(new { action = @Url.Action("GuardarReserva", "Reserva"), method = "POST" })
             .ButtonsTemplate("<button class='k-button k-primary k-form-submit' type='submit'>Generar Reserva</button>")
@@ -20,31 +24,44 @@
             .Items(items =>
             {
                 items.AddGroup()
+                    .Label("Crear Reserva")
                 .Items(i =>
                 {
-
-                    i.Add()
-                .Field(f => f.SalaDeEnsayoId)
-                .Editor(e => e.DropDownList()
-                .AutoBind(false).Filter(FilterType.Contains)
-                .SelectedIndex(0)
-                .OptionLabel("Salas")
-                    .DataSource(d => d.Read(r => r.Action("GetSalasReserva", "Salas").Data("parametros"))
+                        i.Add()
+                    .Field(f => f.TipoDeSalaId).Name("TipoDeSalaId")
+                    .Editor(e => e.DropDownList()
+                    .AutoBind(true).Filter(FilterType.Contains)
+                    .SelectedIndex(0)
+                    .OptionLabel("Tipo de Salas")
+                    .DataSource(d => d.Read("GetList", "TipoDeSala")
                     )
-                .DataTextField("Descripcion")
-                .DataValueField("Id")
-                )
-                .Label(l => l.Text("Seleccione la Sala:"));
+                    .DataTextField("Descripcion")
+                    .DataValueField("Id")
+                    )
+                    .Label(l => l.Text("Seleccione el Tipo de Sala:"));
 
-                    i.Add()
-                .Field(f => f.FechaDesde).Name("fechadesde")
-                    .Editor(e => e.DateTimePicker().Format("dd/MM/yyyy HH:mm").Min(DateTime.Now.AddDays(1)).DateInput())
-                .Label(l => l.Text("Fecha Desde:").Optional(false));
+                        i.Add()
+                    .Field(f => f.SalaDeEnsayoId).Name("SalaDeEnsayoId")
+                    .Editor(e => e.DropDownList().HtmlAttributes(new { required = "required" })
+                    .AutoBind(false).Filter(FilterType.Contains)
+                    .SelectedIndex(0)
+                    .OptionLabel("Salas")
+                    .DataSource(d => d.Read(r => r.Action("GetSalasReserva", "Salas").Data("parametros"))
+                        ).Events(e => e.Open("listar"))
+                    .DataTextField("Descripcion")
+                    .DataValueField("Id")
+                    )
+                    .Label(l => l.Text("Seleccione la Sala:"));
+    
+                        i.Add()
+                    .Field(f => f.FechaInicio).Name("fechainicio")
+                    .Editor(e => e.DateTimePicker().Format("dd/MM/yyyy HH:mm").Min(DateTime.Now.AddDays(1)).DateInput().HtmlAttributes(new { required = "true" }))
+                    .Label(l => l.Text("Fecha Desde:").Optional(false));
 
-                    i.Add()
-                .Field(f => f.FechaHasta).Name("fechahasta")
-                    .Editor(e => e.DateTimePicker().Format("dd/MM/yyyy HH:mm").Min(DateTime.Now.AddDays(1)).DateInput())
-                .Label(l => l.Text("Fecha Hasta:").Optional(false));
+                        i.Add()
+                    .Field(f => f.FechaFin).Name("fechafin")
+                    .Editor(e => e.DateTimePicker().Format("dd/MM/yyyy HH:mm").Min(DateTime.Now.AddDays(1)).DateInput().HtmlAttributes(new { required = "required" }))
+                    .Label(l => l.Text("Fecha Hasta:").Optional(false));
 
                 });
             })

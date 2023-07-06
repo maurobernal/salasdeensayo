@@ -11,12 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 function parametros() {
     var _a;
     return {
-        tipodesalaid: (_a = $('#lbx_tiposdesala').data("kendoDropDownList")) === null || _a === void 0 ? void 0 : _a.value()
+        tipodesalaid: (_a = $('#TipoDeSalaId').data("kendoDropDownList")) === null || _a === void 0 ? void 0 : _a.value()
     };
 }
 function listar() {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        yield ((_a = $('#salaid').data('kendoDropDownList')) === null || _a === void 0 ? void 0 : _a.dataSource.read());
+        yield ((_a = $('#SalaDeEnsayoId').data('kendoDropDownList')) === null || _a === void 0 ? void 0 : _a.dataSource.read());
     });
 }
